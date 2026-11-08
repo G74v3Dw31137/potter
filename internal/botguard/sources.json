@@ -1,0 +1,15 @@
+{
+  "upstream/bgutils/core/BotGuardClient.ts": "4a5b20dccd74233d3c3e360eb691bcb51bb4e5b2b552c46427d1af7f422769dd",
+  "upstream/bgutils/core/ChallengeFetcher.ts": "12a95e70f993990615c81a6917986715fd47befec3d9d5340ae95988413f8b0b",
+  "upstream/bgutils/core/WebPoMinter.ts": "9c69f7a1b30c1a6fc99c816d74823bd2524d0c20445c00d831361296f5c0393a",
+  "upstream/bgutils/exports/botguard.ts": "101c0238e6036680f0a41a0501796f5002cfce4a63163903f027c64897068307",
+  "upstream/bgutils/exports/types.ts": "a1622bc5e3b4bf31935508c34b4356767ec3aafb1e3f8d2538532e4c80333163",
+  "upstream/bgutils/exports/utils.ts": "3bf4a64af1e39d7974242e8b07e10629db99b0b98ecabce466ad708cab929099",
+  "upstream/bgutils/exports/webpo.ts": "20687cf00191329a3bf116c89b8aa0b1a13470d99824076e00d9e6333fab3ff0",
+  "upstream/bgutils/utils/EventEmitterLike.ts": "371bd4732c4045ebbd59f64a6ca197a611d81d161e2c1ac23d2a6c83e6feec0f",
+  "upstream/bgutils/utils/constants.ts": "d7fec82cc901fb6a80ca7be0f97086dcd8c9c4dac08dcd24bf95984f8459fc7f",
+  "upstream/bgutils/utils/helpers.ts": "99f93cd321fba1e5925e3b9ae03c2f74aff5c48c5d6bd77f7d58fc4472eca991",
+  "upstream/bgutils/utils/types.ts": "722e1010c0d6ddd3667771d58e1f66876c1d1e52519bb25cb155918fa27aaeef",
+  "upstream/linkedom-runtime-lock.json": "517959d3523b49de431cf38aaaad22da700e058bd86a628054141c2b8cd989e1",
+  "upstream/linkedom-worker.js": "0f4d0c736eac11c98c1d7b7a041a0c36c8d5aa706dfeae64d84747d8b333f3d3"
+}

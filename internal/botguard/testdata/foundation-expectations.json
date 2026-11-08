@@ -1,0 +1,1763 @@
+{
+  "behavior.arguments.MouseEvent.dictNull": {
+    "Classification": "known-defect",
+    "Contract": "MouseEvent.constructor",
+    "Current": {
+      "error": "TypeError",
+      "message": "Cannot read property 'bubbles' of undefined"
+    },
+    "Reference": "x"
+  },
+  "behavior.arguments.MouseEvent.dictPrimitive": {
+    "Classification": "known-defect",
+    "Contract": "MouseEvent.constructor",
+    "Current": "x",
+    "Reference": {
+      "error": "TypeError",
+      "message": "Failed to construct 'MouseEvent': parameter 2 is not an object."
+    }
+  },
+  "behavior.arguments.MouseEvent.dictUndefined": {
+    "Classification": "agreement",
+    "Contract": "MouseEvent.constructor",
+    "Current": "x",
+    "Reference": "x"
+  },
+  "behavior.arguments.MouseEvent.missing": {
+    "Classification": "known-defect",
+    "Contract": "MouseEvent.constructor",
+    "Current": {
+      "type": "undefined"
+    },
+    "Reference": {
+      "error": "TypeError",
+      "message": "Failed to construct 'MouseEvent': 1 argument required, but only 0 present."
+    }
+  },
+  "behavior.arguments.MouseEvent.null": {
+    "Classification": "known-defect",
+    "Contract": "MouseEvent.constructor",
+    "Current": null,
+    "Reference": "null"
+  },
+  "behavior.arguments.MouseEvent.undefined": {
+    "Classification": "known-defect",
+    "Contract": "MouseEvent.constructor",
+    "Current": {
+      "type": "undefined"
+    },
+    "Reference": "undefined"
+  },
+  "behavior.arguments.UIEvent.dictNull": {
+    "Classification": "known-defect",
+    "Contract": "UIEvent.constructor",
+    "Current": {
+      "error": "TypeError",
+      "message": "Cannot read property 'bubbles' of undefined"
+    },
+    "Reference": "x"
+  },
+  "behavior.arguments.UIEvent.dictPrimitive": {
+    "Classification": "known-defect",
+    "Contract": "UIEvent.constructor",
+    "Current": "x",
+    "Reference": {
+      "error": "TypeError",
+      "message": "Failed to construct 'UIEvent': parameter 2 is not an object."
+    }
+  },
+  "behavior.arguments.UIEvent.dictUndefined": {
+    "Classification": "agreement",
+    "Contract": "UIEvent.constructor",
+    "Current": "x",
+    "Reference": "x"
+  },
+  "behavior.arguments.UIEvent.missing": {
+    "Classification": "known-defect",
+    "Contract": "UIEvent.constructor",
+    "Current": {
+      "type": "undefined"
+    },
+    "Reference": {
+      "error": "TypeError",
+      "message": "Failed to construct 'UIEvent': 1 argument required, but only 0 present."
+    }
+  },
+  "behavior.arguments.UIEvent.null": {
+    "Classification": "known-defect",
+    "Contract": "UIEvent.constructor",
+    "Current": null,
+    "Reference": "null"
+  },
+  "behavior.arguments.UIEvent.undefined": {
+    "Classification": "known-defect",
+    "Contract": "UIEvent.constructor",
+    "Current": {
+      "type": "undefined"
+    },
+    "Reference": "undefined"
+  },
+  "behavior.attribute.htmlCase": {
+    "Classification": "known-defect",
+    "Contract": "Element.setAttributeNS",
+    "Current": null,
+    "Reference": "1"
+  },
+  "behavior.attribute.lookupPrefix.coercions": {
+    "Classification": "known-defect",
+    "Contract": "Node.lookupPrefix",
+    "Current": 2,
+    "Reference": 1
+  },
+  "behavior.attribute.lookupPrefix.symbol": {
+    "Classification": "known-defect",
+    "Contract": "Node.lookupPrefix",
+    "Current": null,
+    "Reference": {
+      "error": "TypeError",
+      "message": "Failed to execute 'lookupPrefix' on 'Node': parameter 1 is a symbol, which cannot be converted to a string."
+    }
+  },
+  "behavior.attribute.namespace": {
+    "Classification": "known-defect",
+    "Contract": "Element.setAttributeNS",
+    "Current": false,
+    "Reference": true
+  },
+  "behavior.brand.Element.clientWidth.forged": {
+    "Classification": "known-defect",
+    "Contract": "Element.clientWidth",
+    "Current": 0,
+    "Reference": {
+      "error": "TypeError",
+      "message": "'get clientWidth' called on an object that is not a valid instance of Element."
+    }
+  },
+  "behavior.brand.Element.clientWidth.plain": {
+    "Classification": "known-defect",
+    "Contract": "Element.clientWidth",
+    "Current": {
+      "error": "TypeError",
+      "message": "Illegal invocation"
+    },
+    "Reference": {
+      "error": "TypeError",
+      "message": "'get clientWidth' called on an object that is not a valid instance of Element."
+    }
+  },
+  "behavior.brand.Element.getAttribute.forged": {
+    "Classification": "known-defect",
+    "Contract": "Element.getAttribute",
+    "Current": {
+      "error": "TypeError",
+      "message": "Cannot read property 'nodeType' of undefined"
+    },
+    "Reference": {
+      "error": "TypeError",
+      "message": "'getAttribute' called on an object that is not a valid instance of Element."
+    }
+  },
+  "behavior.brand.Element.getAttribute.plain": {
+    "Classification": "known-defect",
+    "Contract": "Element.getAttribute",
+    "Current": {
+      "error": "TypeError",
+      "message": "Object has no member 'getAttributeNode'"
+    },
+    "Reference": {
+      "error": "TypeError",
+      "message": "'getAttribute' called on an object that is not a valid instance of Element."
+    }
+  },
+  "behavior.brand.HTMLImageElement.border.forged": {
+    "Classification": "known-defect",
+    "Contract": "HTMLImageElement.border",
+    "Current": {
+      "error": "TypeError",
+      "message": "Cannot read property 'nodeType' of undefined"
+    },
+    "Reference": {
+      "error": "TypeError",
+      "message": "'get border' called on an object that is not a valid instance of HTMLImageElement."
+    }
+  },
+  "behavior.brand.HTMLImageElement.border.plain": {
+    "Classification": "known-defect",
+    "Contract": "HTMLImageElement.border",
+    "Current": {
+      "error": "TypeError",
+      "message": "Illegal invocation"
+    },
+    "Reference": {
+      "error": "TypeError",
+      "message": "'get border' called on an object that is not a valid instance of HTMLImageElement."
+    }
+  },
+  "behavior.brand.HTMLImageElement.complete.forged": {
+    "Classification": "known-defect",
+    "Contract": "HTMLImageElement.complete",
+    "Current": {
+      "error": "TypeError",
+      "message": "Cannot read property 'nodeType' of undefined"
+    },
+    "Reference": {
+      "error": "TypeError",
+      "message": "'get complete' called on an object that is not a valid instance of HTMLImageElement."
+    }
+  },
+  "behavior.brand.HTMLImageElement.complete.plain": {
+    "Classification": "known-defect",
+    "Contract": "HTMLImageElement.complete",
+    "Current": {
+      "error": "TypeError",
+      "message": "Illegal invocation"
+    },
+    "Reference": {
+      "error": "TypeError",
+      "message": "'get complete' called on an object that is not a valid instance of HTMLImageElement."
+    }
+  },
+  "behavior.brand.Node.lookupPrefix.forged": {
+    "Classification": "known-defect",
+    "Contract": "Node.lookupPrefix",
+    "Current": null,
+    "Reference": {
+      "error": "TypeError",
+      "message": "'lookupPrefix' called on an object that is not a valid instance of Node."
+    }
+  },
+  "behavior.brand.Node.lookupPrefix.plain": {
+    "Classification": "known-defect",
+    "Contract": "Node.lookupPrefix",
+    "Current": {
+      "error": "TypeError",
+      "message": "lookupPrefix requires a Node and one argument"
+    },
+    "Reference": {
+      "error": "TypeError",
+      "message": "'lookupPrefix' called on an object that is not a valid instance of Node."
+    }
+  },
+  "behavior.collection.attributes.array": {
+    "Classification": "known-defect",
+    "Contract": "NamedNodeMap.attributes",
+    "Current": true,
+    "Reference": false
+  },
+  "behavior.collection.attributes.identity": {
+    "Classification": "known-defect",
+    "Contract": "NamedNodeMap.attributes",
+    "Current": false,
+    "Reference": true
+  },
+  "behavior.collection.attributes.prototype": {
+    "Classification": "known-defect",
+    "Contract": "NamedNodeMap.attributes",
+    "Current": true,
+    "Reference": false
+  },
+  "behavior.collection.attributes.splice": {
+    "Classification": "known-defect",
+    "Contract": "NamedNodeMap.attributes",
+    "Current": "function",
+    "Reference": "undefined"
+  },
+  "behavior.collection.childNodes.array": {
+    "Classification": "known-defect",
+    "Contract": "NodeList.childNodes",
+    "Current": true,
+    "Reference": false
+  },
+  "behavior.collection.childNodes.identity": {
+    "Classification": "known-defect",
+    "Contract": "NodeList.childNodes",
+    "Current": false,
+    "Reference": true
+  },
+  "behavior.collection.childNodes.prototype": {
+    "Classification": "known-defect",
+    "Contract": "NodeList.childNodes",
+    "Current": true,
+    "Reference": false
+  },
+  "behavior.collection.childNodes.splice": {
+    "Classification": "known-defect",
+    "Contract": "NodeList.childNodes",
+    "Current": "function",
+    "Reference": "undefined"
+  },
+  "behavior.collection.children.array": {
+    "Classification": "known-defect",
+    "Contract": "HTMLCollection.children",
+    "Current": true,
+    "Reference": false
+  },
+  "behavior.collection.children.identity": {
+    "Classification": "known-defect",
+    "Contract": "HTMLCollection.children",
+    "Current": false,
+    "Reference": true
+  },
+  "behavior.collection.children.prototype": {
+    "Classification": "known-defect",
+    "Contract": "HTMLCollection.children",
+    "Current": true,
+    "Reference": false
+  },
+  "behavior.collection.children.splice": {
+    "Classification": "known-defect",
+    "Contract": "HTMLCollection.children",
+    "Current": "function",
+    "Reference": "undefined"
+  },
+  "behavior.collections.array": {
+    "Classification": "known-defect",
+    "Contract": "NodeList.childNodes",
+    "Current": true,
+    "Reference": false
+  },
+  "behavior.collections.attributes.live": {
+    "Classification": "known-defect",
+    "Contract": "NamedNodeMap.attributes",
+    "Current": 0,
+    "Reference": 1
+  },
+  "behavior.collections.childNodes.live": {
+    "Classification": "known-defect",
+    "Contract": "NodeList.childNodes",
+    "Current": 0,
+    "Reference": 1
+  },
+  "behavior.collections.childNodes.sameObject": {
+    "Classification": "known-defect",
+    "Contract": "NodeList.childNodes",
+    "Current": false,
+    "Reference": true
+  },
+  "behavior.collections.children.live": {
+    "Classification": "known-defect",
+    "Contract": "HTMLCollection.children",
+    "Current": 0,
+    "Reference": 1
+  },
+  "behavior.collections.named": {
+    "Classification": "agreement",
+    "Contract": "NamedNodeMap.attributes",
+    "Current": true,
+    "Reference": true
+  },
+  "behavior.collections.nodelist.push": {
+    "Classification": "known-defect",
+    "Contract": "NodeList.childNodes",
+    "Current": "function",
+    "Reference": "undefined"
+  },
+  "behavior.collections.query.static": {
+    "Classification": "agreement",
+    "Contract": "NodeList.childNodes",
+    "Current": 0,
+    "Reference": 0
+  },
+  "behavior.constructor.Event.noargs": {
+    "Classification": "known-defect",
+    "Contract": "Event.type",
+    "Current": {
+      "type": "undefined"
+    },
+    "Reference": {
+      "error": "TypeError",
+      "message": "Failed to construct 'Event': 1 argument required, but only 0 present."
+    }
+  },
+  "behavior.constructor.EventTarget": {
+    "Classification": "known-defect",
+    "Contract": "Event.type",
+    "Current": "[object Object]",
+    "Reference": "[object EventTarget]"
+  },
+  "behavior.constructor.MouseEvent.button": {
+    "Classification": "known-defect",
+    "Contract": "MouseEvent.constructor",
+    "Current": 65535,
+    "Reference": -1
+  },
+  "behavior.constructor.MouseEvent.fraction": {
+    "Classification": "known-defect",
+    "Contract": "MouseEvent.constructor",
+    "Current": 1,
+    "Reference": 1.75
+  },
+  "behavior.constructor.MouseEvent.relatedTarget": {
+    "Classification": "known-defect",
+    "Contract": "MouseEvent.constructor",
+    "Current": false,
+    "Reference": {
+      "error": "TypeError",
+      "message": "Failed to construct 'MouseEvent': parameter 2 has member 'relatedTarget' that is not of type 'EventTarget'."
+    }
+  },
+  "behavior.constructor.UIEvent.detail": {
+    "Classification": "known-defect",
+    "Contract": "UIEvent.constructor",
+    "Current": 1.75,
+    "Reference": 1
+  },
+  "behavior.constructor.UIEvent.noargs": {
+    "Classification": "known-defect",
+    "Contract": "UIEvent.constructor",
+    "Current": {
+      "type": "undefined"
+    },
+    "Reference": {
+      "error": "TypeError",
+      "message": "Failed to construct 'UIEvent': 1 argument required, but only 0 present."
+    }
+  },
+  "behavior.constructor.UIEvent.nullDictionary": {
+    "Classification": "known-defect",
+    "Contract": "UIEvent.constructor",
+    "Current": {
+      "error": "TypeError",
+      "message": "Cannot read property 'bubbles' of undefined"
+    },
+    "Reference": 0
+  },
+  "behavior.constructor.UIEvent.objectBigInt": {
+    "Classification": "reference-disagreement",
+    "Contract": "UIEvent.constructor",
+    "Current": {
+      "error": "TypeError",
+      "message": "Cannot convert a BigInt value to a number"
+    },
+    "Reference": 1
+  },
+  "behavior.constructor.UIEvent.symbol": {
+    "Classification": "known-defect",
+    "Contract": "UIEvent.constructor",
+    "Current": {
+      "tag": "[object Symbol]",
+      "type": "symbol"
+    },
+    "Reference": {
+      "error": "TypeError",
+      "message": "Failed to construct 'UIEvent': parameter 1 is a symbol, which cannot be converted to a string."
+    }
+  },
+  "behavior.constructor.UIEvent.view": {
+    "Classification": "known-defect",
+    "Contract": "UIEvent.constructor",
+    "Current": false,
+    "Reference": {
+      "error": "TypeError",
+      "message": "Failed to construct 'UIEvent': member view is not of type Window."
+    }
+  },
+  "behavior.dictionary.sideEffects": {
+    "Classification": "reference-disagreement",
+    "Contract": "UIEvent.constructor",
+    "Current": "detail,valueOf,clientX",
+    "Reference": "detail,valueOf,clientX,clientX"
+  },
+  "behavior.document.windowIdentity": {
+    "Classification": "agreement",
+    "Contract": "Document.defaultView",
+    "Current": true,
+    "Reference": true
+  },
+  "behavior.encoding.atob.error": {
+    "Classification": "known-defect",
+    "Contract": "Global.atob",
+    "Current": {
+      "error": "TypeError",
+      "message": "invalid base64: illegal base64 data at input byte 0"
+    },
+    "Reference": {
+      "error": "InvalidCharacterError",
+      "message": "The string to be decoded contains invalid characters."
+    }
+  },
+  "behavior.encoding.btoa.error": {
+    "Classification": "known-defect",
+    "Contract": "Global.atob",
+    "Current": {
+      "error": "TypeError",
+      "message": "invalid binary string"
+    },
+    "Reference": {
+      "error": "InvalidCharacterError",
+      "message": "The string to be encoded contains invalid characters."
+    }
+  },
+  "behavior.event.captureOrder": {
+    "Classification": "known-defect",
+    "Contract": "Event.type",
+    "Current": "target,capture,bubble",
+    "Reference": "capture,target,bubble"
+  },
+  "behavior.event.dispatch.exception": {
+    "Classification": "known-defect",
+    "Contract": "Event.type",
+    "Current": {
+      "error": "InvalidStateError",
+      "message": "InvalidStateError"
+    },
+    "Reference": {
+      "error": "InvalidStateError",
+      "message": "Tried to dispatch an uninitialized event"
+    }
+  },
+  "behavior.event.dispatchState": {
+    "Classification": "known-defect",
+    "Contract": "Event.type",
+    "Current": "[0,true,false,2,true,true,\"InvalidStateError\",false,0,false,false]",
+    "Reference": "[0,true,true,2,true,true,\"InvalidStateError\",false,0,true,true]"
+  },
+  "behavior.event.duplicateNode": {
+    "Classification": "agreement",
+    "Contract": "Event.type",
+    "Current": 1,
+    "Reference": 1
+  },
+  "behavior.event.failedInit.typeState": {
+    "Classification": "known-defect",
+    "Contract": "UIEvent.constructor",
+    "Current": "new",
+    "Reference": "old"
+  },
+  "behavior.event.preventDefault.uncancelable": {
+    "Classification": "known-defect",
+    "Contract": "Event.type",
+    "Current": true,
+    "Reference": false
+  },
+  "behavior.event.readonly.defaultPrevented": {
+    "Classification": "known-defect",
+    "Contract": "Event.type",
+    "Current": false,
+    "Reference": true
+  },
+  "behavior.event.readonly.eventPhase": {
+    "Classification": "known-defect",
+    "Contract": "Event.type",
+    "Current": false,
+    "Reference": true
+  },
+  "behavior.event.readonly.target": {
+    "Classification": "known-defect",
+    "Contract": "Event.type",
+    "Current": false,
+    "Reference": true
+  },
+  "behavior.event.readonly.timeStamp": {
+    "Classification": "known-defect",
+    "Contract": "Event.type",
+    "Current": false,
+    "Reference": true
+  },
+  "behavior.event.readonly.type": {
+    "Classification": "known-defect",
+    "Contract": "Event.type",
+    "Current": false,
+    "Reference": true
+  },
+  "behavior.event.type.readonly": {
+    "Classification": "known-defect",
+    "Contract": "Event.type",
+    "Current": "b",
+    "Reference": "a"
+  },
+  "behavior.geometry.rect.tag": {
+    "Classification": "agreement",
+    "Contract": "Element.getBoundingClientRect",
+    "Current": "[object Object]",
+    "Reference": "[object Object]"
+  },
+  "behavior.geometry.rects": {
+    "Classification": "known-defect",
+    "Contract": "Element.getBoundingClientRect",
+    "Current": {
+      "error": "TypeError",
+      "message": "Object has no member 'getClientRects'"
+    },
+    "Reference": 0
+  },
+  "behavior.global.encoding.encodeSymbol": {
+    "Classification": "known-defect",
+    "Contract": "TextEncoder.encode",
+    "Current": 9,
+    "Reference": {
+      "error": "TypeError",
+      "message": "Failed to execute 'encode' on 'TextEncoder': parameter 1 is a symbol, which cannot be converted to a string."
+    }
+  },
+  "behavior.history.prototype": {
+    "Classification": "known-defect",
+    "Contract": "History.length",
+    "Current": true,
+    "Reference": false
+  },
+  "behavior.iframe.document": {
+    "Classification": "known-defect",
+    "Contract": "Window.iframe",
+    "Current": "undefined",
+    "Reference": "object"
+  },
+  "behavior.iframe.realm": {
+    "Classification": "known-defect",
+    "Contract": "Window.iframe",
+    "Current": true,
+    "Reference": false
+  },
+  "behavior.image.border.null": {
+    "Classification": "agreement",
+    "Contract": "HTMLImageElement.width",
+    "Current": "",
+    "Reference": ""
+  },
+  "behavior.image.complete.srcset": {
+    "Classification": "agreement",
+    "Contract": "HTMLImageElement.width",
+    "Current": true,
+    "Reference": true
+  },
+  "behavior.image.src.relative": {
+    "Classification": "known-defect",
+    "Contract": "HTMLImageElement.width",
+    "Current": "a.png",
+    "Reference": "https://m.youtube.com/a.png"
+  },
+  "behavior.image.width.negative": {
+    "Classification": "known-defect",
+    "Contract": "HTMLImageElement.width",
+    "Current": -1,
+    "Reference": 4294967295
+  },
+  "behavior.initializer.atomicity": {
+    "Classification": "known-defect",
+    "Contract": "MouseEvent.constructor",
+    "Current": "[\"TypeError\",\"new\",true,true,2,7]",
+    "Reference": "[\"TypeError\",\"old\",false,false,5,7]"
+  },
+  "behavior.namespace.lookupPrefix.primitive": {
+    "Classification": "known-defect",
+    "Contract": "Node.lookupPrefix",
+    "Current": "string,string",
+    "Reference": "string"
+  },
+  "behavior.namespace.setAttribute.symbol": {
+    "Classification": "known-defect",
+    "Contract": "Element.setAttributeNS",
+    "Current": {
+      "type": "undefined"
+    },
+    "Reference": {
+      "error": "TypeError",
+      "message": "Failed to execute 'setAttribute' on 'Element': parameter 1 is a symbol, which cannot be converted to a string."
+    }
+  },
+  "behavior.numeric.MouseEvent.bigint": {
+    "Classification": "known-defect",
+    "Contract": "MouseEvent.constructor",
+    "Current": {
+      "error": "TypeError",
+      "message": "Cannot convert a BigInt value to a number"
+    },
+    "Reference": {
+      "error": "TypeError",
+      "message": "Failed to construct 'MouseEvent': parameter 2 has member 'detail' that is a BigInt which cannot be converted to a number."
+    }
+  },
+  "behavior.numeric.MouseEvent.infinity": {
+    "Classification": "known-defect",
+    "Contract": "MouseEvent.constructor",
+    "Current": "[null,0,0]",
+    "Reference": {
+      "error": "TypeError",
+      "message": "Failed to construct 'MouseEvent': parameter 2 has member 'clientX' that is not a finite floating-point value."
+    }
+  },
+  "behavior.numeric.MouseEvent.nan": {
+    "Classification": "known-defect",
+    "Contract": "MouseEvent.constructor",
+    "Current": "[0,0,0]",
+    "Reference": {
+      "error": "TypeError",
+      "message": "Failed to construct 'MouseEvent': parameter 2 has member 'clientX' that is not a finite floating-point value."
+    }
+  },
+  "behavior.numeric.MouseEvent.negative": {
+    "Classification": "known-defect",
+    "Contract": "MouseEvent.constructor",
+    "Current": "[-1.75,-1,-1]",
+    "Reference": "[-1,-1.75,-1]"
+  },
+  "behavior.numeric.MouseEvent.symbol": {
+    "Classification": "agreement",
+    "Contract": "MouseEvent.constructor",
+    "Current": {
+      "error": "TypeError",
+      "message": "Cannot convert a Symbol value to a number"
+    },
+    "Reference": {
+      "error": "TypeError",
+      "message": "Cannot convert a Symbol value to a number"
+    }
+  },
+  "behavior.numeric.MouseEvent.wrap": {
+    "Classification": "known-defect",
+    "Contract": "MouseEvent.constructor",
+    "Current": "[4294967297,1,1]",
+    "Reference": "[1,4294967297,1]"
+  },
+  "behavior.numeric.UIEvent.bigint": {
+    "Classification": "known-defect",
+    "Contract": "UIEvent.constructor",
+    "Current": {
+      "error": "TypeError",
+      "message": "Cannot convert a BigInt value to a number"
+    },
+    "Reference": {
+      "error": "TypeError",
+      "message": "Failed to construct 'UIEvent': parameter 2 has member 'detail' that is a BigInt which cannot be converted to a number."
+    }
+  },
+  "behavior.numeric.UIEvent.infinity": {
+    "Classification": "known-defect",
+    "Contract": "UIEvent.constructor",
+    "Current": "[null,null,null]",
+    "Reference": "[0,null,null]"
+  },
+  "behavior.numeric.UIEvent.nan": {
+    "Classification": "agreement",
+    "Contract": "UIEvent.constructor",
+    "Current": "[0,null,null]",
+    "Reference": "[0,null,null]"
+  },
+  "behavior.numeric.UIEvent.negative": {
+    "Classification": "known-defect",
+    "Contract": "UIEvent.constructor",
+    "Current": "[-1.75,null,null]",
+    "Reference": "[-1,null,null]"
+  },
+  "behavior.numeric.UIEvent.symbol": {
+    "Classification": "agreement",
+    "Contract": "UIEvent.constructor",
+    "Current": {
+      "error": "TypeError",
+      "message": "Cannot convert a Symbol value to a number"
+    },
+    "Reference": {
+      "error": "TypeError",
+      "message": "Cannot convert a Symbol value to a number"
+    }
+  },
+  "behavior.numeric.UIEvent.wrap": {
+    "Classification": "known-defect",
+    "Contract": "UIEvent.constructor",
+    "Current": "[4294967297,null,null]",
+    "Reference": "[1,null,null]"
+  },
+  "behavior.receiver.clientWidth.forged": {
+    "Classification": "known-defect",
+    "Contract": "Element.clientWidth",
+    "Current": 0,
+    "Reference": {
+      "error": "TypeError",
+      "message": "'get clientWidth' called on an object that is not a valid instance of Element."
+    }
+  },
+  "behavior.receiver.currentSrc": {
+    "Classification": "known-defect",
+    "Contract": "HTMLImageElement.currentSrc",
+    "Current": "",
+    "Reference": {
+      "error": "TypeError",
+      "message": "'get currentSrc' called on an object that is not a valid instance of HTMLImageElement."
+    }
+  },
+  "behavior.receiver.offsetParent": {
+    "Classification": "known-defect",
+    "Contract": "HTMLElement.offsetParent",
+    "Current": null,
+    "Reference": {
+      "error": "TypeError",
+      "message": "'get offsetParent' called on an object that is not a valid instance of HTMLElement."
+    }
+  },
+  "behavior.style.computed": {
+    "Classification": "known-defect",
+    "Contract": "Window.getComputedStyle",
+    "Current": {
+      "error": "NotSupportedError",
+      "message": "CSS style computation is not supported by the virtual window"
+    },
+    "Reference": "block"
+  },
+  "behavior.timer.interval.arity": {
+    "Classification": "agreement",
+    "Contract": "Window.setInterval",
+    "Current": 1,
+    "Reference": 1
+  },
+  "behavior.timer.interval.missing": {
+    "Classification": "agreement",
+    "Contract": "Window.setInterval",
+    "Current": "number",
+    "Reference": "number"
+  },
+  "behavior.timer.timeout.arity": {
+    "Classification": "known-defect",
+    "Contract": "Window.setTimeout",
+    "Current": 0,
+    "Reference": 1
+  },
+  "behavior.timer.timeout.string": {
+    "Classification": "known-defect",
+    "Contract": "Window.setTimeout",
+    "Current": {
+      "error": "TypeError",
+      "message": "invalid timer callback"
+    },
+    "Reference": "number"
+  },
+  "behavior.window.eventDuplicate": {
+    "Classification": "known-defect",
+    "Contract": "Window.addEventListener",
+    "Current": 2,
+    "Reference": 1
+  },
+  "behavior.window.tag": {
+    "Classification": "known-defect",
+    "Contract": "Window.window",
+    "Current": "[object global]",
+    "Reference": "[object Window]"
+  },
+  "surface.collection.attributes.item": {
+    "Classification": "known-defect",
+    "Contract": "NamedNodeMap.attributes",
+    "Current": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": false,
+      "kind": "data",
+      "owner": "NamedNodeMap",
+      "type": "function",
+      "writable": true
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "NamedNodeMap",
+      "type": "function",
+      "writable": true
+    }
+  },
+  "surface.collection.attributes.length": {
+    "Classification": "known-defect",
+    "Contract": "NamedNodeMap.attributes",
+    "Current": {
+      "configurable": false,
+      "depth": 0,
+      "enumerable": false,
+      "kind": "data",
+      "owner": "instance",
+      "type": "number",
+      "writable": true
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "NamedNodeMap",
+      "set": "undefined"
+    }
+  },
+  "surface.collection.attributes.push": {
+    "Classification": "known-defect",
+    "Contract": "NamedNodeMap.attributes",
+    "Current": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": false,
+      "kind": "data",
+      "owner": "NamedNodeMap",
+      "type": "function",
+      "writable": true
+    },
+    "Reference": null
+  },
+  "surface.collection.childNodes.item": {
+    "Classification": "known-defect",
+    "Contract": "NodeList.childNodes",
+    "Current": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": false,
+      "kind": "data",
+      "owner": "NodeList",
+      "type": "function",
+      "writable": true
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "NodeList",
+      "type": "function",
+      "writable": true
+    }
+  },
+  "surface.collection.childNodes.length": {
+    "Classification": "known-defect",
+    "Contract": "NodeList.childNodes",
+    "Current": {
+      "configurable": false,
+      "depth": 0,
+      "enumerable": false,
+      "kind": "data",
+      "owner": "instance",
+      "type": "number",
+      "writable": true
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "NodeList",
+      "set": "undefined"
+    }
+  },
+  "surface.collection.childNodes.push": {
+    "Classification": "known-defect",
+    "Contract": "NodeList.childNodes",
+    "Current": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": false,
+      "kind": "data",
+      "owner": "NodeList",
+      "type": "function",
+      "writable": true
+    },
+    "Reference": null
+  },
+  "surface.collection.children.item": {
+    "Classification": "known-defect",
+    "Contract": "HTMLCollection.children",
+    "Current": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": false,
+      "kind": "data",
+      "owner": "NodeList",
+      "type": "function",
+      "writable": true
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "HTMLCollection",
+      "type": "function",
+      "writable": true
+    }
+  },
+  "surface.collection.children.length": {
+    "Classification": "known-defect",
+    "Contract": "HTMLCollection.children",
+    "Current": {
+      "configurable": false,
+      "depth": 0,
+      "enumerable": false,
+      "kind": "data",
+      "owner": "instance",
+      "type": "number",
+      "writable": true
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "HTMLCollection",
+      "set": "undefined"
+    }
+  },
+  "surface.collection.children.push": {
+    "Classification": "known-defect",
+    "Contract": "HTMLCollection.children",
+    "Current": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": false,
+      "kind": "data",
+      "owner": "NodeList",
+      "type": "function",
+      "writable": true
+    },
+    "Reference": null
+  },
+  "surface.document.URL": {
+    "Classification": "known-defect",
+    "Contract": "Document.URL",
+    "Current": {
+      "configurable": true,
+      "depth": 0,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "instance",
+      "type": "string",
+      "writable": true
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "Document",
+      "set": "undefined"
+    }
+  },
+  "surface.document.createElement": {
+    "Classification": "known-defect",
+    "Contract": "Document.createElement",
+    "Current": {
+      "configurable": true,
+      "depth": 0,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "instance",
+      "type": "function",
+      "writable": true
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "Document",
+      "type": "function",
+      "writable": true
+    }
+  },
+  "surface.document.createEvent": {
+    "Classification": "known-defect",
+    "Contract": "Document.createEvent",
+    "Current": {
+      "configurable": true,
+      "depth": 0,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "instance",
+      "type": "function",
+      "writable": true
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "Document",
+      "type": "function",
+      "writable": true
+    }
+  },
+  "surface.document.defaultView": {
+    "Classification": "known-defect",
+    "Contract": "Document.defaultView",
+    "Current": {
+      "configurable": true,
+      "depth": 0,
+      "enumerable": false,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "instance",
+      "set": "undefined"
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "Document",
+      "set": "undefined"
+    }
+  },
+  "surface.element.attributes": {
+    "Classification": "known-defect",
+    "Contract": "NamedNodeMap.attributes",
+    "Current": {
+      "configurable": true,
+      "depth": 2,
+      "enumerable": false,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "Element",
+      "set": "undefined"
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 3,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "Element",
+      "set": "undefined"
+    }
+  },
+  "surface.element.childNodes": {
+    "Classification": "known-defect",
+    "Contract": "NodeList.childNodes",
+    "Current": {
+      "configurable": true,
+      "depth": 3,
+      "enumerable": false,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "ParentNode",
+      "set": "undefined"
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 4,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "Node",
+      "set": "undefined"
+    }
+  },
+  "surface.element.children": {
+    "Classification": "known-defect",
+    "Contract": "HTMLCollection.children",
+    "Current": {
+      "configurable": true,
+      "depth": 3,
+      "enumerable": false,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "ParentNode",
+      "set": "undefined"
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 3,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "Element",
+      "set": "undefined"
+    }
+  },
+  "surface.element.clientWidth": {
+    "Classification": "known-defect",
+    "Contract": "Element.clientWidth",
+    "Current": {
+      "configurable": true,
+      "depth": 2,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "Element",
+      "set": "undefined"
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 3,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "Element",
+      "set": "undefined"
+    }
+  },
+  "surface.element.getAttributeNodeNS": {
+    "Classification": "known-defect",
+    "Contract": "Element.getAttributeNodeNS",
+    "Current": {
+      "configurable": true,
+      "depth": 2,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "Element",
+      "type": "function",
+      "writable": true
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 3,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "Element",
+      "type": "function",
+      "writable": true
+    }
+  },
+  "surface.element.getBoundingClientRect": {
+    "Classification": "known-defect",
+    "Contract": "Element.getBoundingClientRect",
+    "Current": {
+      "configurable": true,
+      "depth": 2,
+      "enumerable": false,
+      "kind": "data",
+      "owner": "Element",
+      "type": "function",
+      "writable": true
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 3,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "Element",
+      "type": "function",
+      "writable": true
+    }
+  },
+  "surface.element.setAttributeNS": {
+    "Classification": "known-defect",
+    "Contract": "Element.setAttributeNS",
+    "Current": {
+      "configurable": true,
+      "depth": 2,
+      "enumerable": false,
+      "kind": "data",
+      "owner": "Element",
+      "type": "function",
+      "writable": true
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 3,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "Element",
+      "type": "function",
+      "writable": true
+    }
+  },
+  "surface.event.button": {
+    "Classification": "agreement",
+    "Contract": "Event.type",
+    "Current": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "MouseEvent",
+      "set": "undefined"
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "MouseEvent",
+      "set": "undefined"
+    }
+  },
+  "surface.event.cancelable": {
+    "Classification": "known-defect",
+    "Contract": "Event.cancelable",
+    "Current": {
+      "configurable": true,
+      "depth": 0,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "instance",
+      "type": "boolean",
+      "writable": true
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 3,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "Event",
+      "set": "undefined"
+    }
+  },
+  "surface.event.clientX": {
+    "Classification": "agreement",
+    "Contract": "Event.type",
+    "Current": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "MouseEvent",
+      "set": "undefined"
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "MouseEvent",
+      "set": "undefined"
+    }
+  },
+  "surface.event.currentTarget": {
+    "Classification": "known-defect",
+    "Contract": "Event.currentTarget",
+    "Current": null,
+    "Reference": {
+      "configurable": true,
+      "depth": 3,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "Event",
+      "set": "undefined"
+    }
+  },
+  "surface.event.defaultPrevented": {
+    "Classification": "known-defect",
+    "Contract": "Event.defaultPrevented",
+    "Current": {
+      "configurable": true,
+      "depth": 0,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "instance",
+      "type": "boolean",
+      "writable": true
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 3,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "Event",
+      "set": "undefined"
+    }
+  },
+  "surface.event.detail": {
+    "Classification": "agreement",
+    "Contract": "Event.type",
+    "Current": {
+      "configurable": true,
+      "depth": 2,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "UIEvent",
+      "set": "undefined"
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 2,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "UIEvent",
+      "set": "undefined"
+    }
+  },
+  "surface.event.eventPhase": {
+    "Classification": "known-defect",
+    "Contract": "Event.eventPhase",
+    "Current": {
+      "configurable": true,
+      "depth": 0,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "instance",
+      "type": "number",
+      "writable": true
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 3,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "Event",
+      "set": "undefined"
+    }
+  },
+  "surface.event.initMouseEvent": {
+    "Classification": "agreement",
+    "Contract": "MouseEvent.constructor",
+    "Current": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "MouseEvent",
+      "type": "function",
+      "writable": true
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "MouseEvent",
+      "type": "function",
+      "writable": true
+    }
+  },
+  "surface.event.initUIEvent": {
+    "Classification": "agreement",
+    "Contract": "UIEvent.constructor",
+    "Current": {
+      "configurable": true,
+      "depth": 2,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "UIEvent",
+      "type": "function",
+      "writable": true
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 2,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "UIEvent",
+      "type": "function",
+      "writable": true
+    }
+  },
+  "surface.event.target": {
+    "Classification": "known-defect",
+    "Contract": "Event.target",
+    "Current": {
+      "configurable": true,
+      "depth": 0,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "instance",
+      "type": "object",
+      "writable": true
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 3,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "Event",
+      "set": "undefined"
+    }
+  },
+  "surface.event.timeStamp": {
+    "Classification": "known-defect",
+    "Contract": "Event.timeStamp",
+    "Current": {
+      "configurable": true,
+      "depth": 0,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "instance",
+      "type": "number",
+      "writable": true
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 3,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "Event",
+      "set": "undefined"
+    }
+  },
+  "surface.event.type": {
+    "Classification": "known-defect",
+    "Contract": "Event.type",
+    "Current": {
+      "configurable": true,
+      "depth": 0,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "instance",
+      "type": "string",
+      "writable": true
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 3,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "Event",
+      "set": "undefined"
+    }
+  },
+  "surface.image.border": {
+    "Classification": "agreement",
+    "Contract": "HTMLImageElement.border",
+    "Current": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "HTMLImageElement",
+      "set": "function"
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "HTMLImageElement",
+      "set": "function"
+    }
+  },
+  "surface.image.complete": {
+    "Classification": "agreement",
+    "Contract": "HTMLImageElement.complete",
+    "Current": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "HTMLImageElement",
+      "set": "undefined"
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "HTMLImageElement",
+      "set": "undefined"
+    }
+  },
+  "surface.image.currentSrc": {
+    "Classification": "agreement",
+    "Contract": "HTMLImageElement.currentSrc",
+    "Current": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "HTMLImageElement",
+      "set": "undefined"
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "HTMLImageElement",
+      "set": "undefined"
+    }
+  },
+  "surface.image.hspace": {
+    "Classification": "agreement",
+    "Contract": "HTMLImageElement.hspace",
+    "Current": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "HTMLImageElement",
+      "set": "function"
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "HTMLImageElement",
+      "set": "function"
+    }
+  },
+  "surface.image.longDesc": {
+    "Classification": "agreement",
+    "Contract": "HTMLImageElement.longDesc",
+    "Current": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "HTMLImageElement",
+      "set": "function"
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "HTMLImageElement",
+      "set": "function"
+    }
+  },
+  "surface.image.naturalWidth": {
+    "Classification": "known-defect",
+    "Contract": "HTMLImageElement.naturalWidth",
+    "Current": null,
+    "Reference": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "HTMLImageElement",
+      "set": "undefined"
+    }
+  },
+  "surface.image.src": {
+    "Classification": "known-defect",
+    "Contract": "HTMLImageElement.src",
+    "Current": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": false,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "HTMLImageElement",
+      "set": "function"
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "HTMLImageElement",
+      "set": "function"
+    }
+  },
+  "surface.image.vspace": {
+    "Classification": "agreement",
+    "Contract": "HTMLImageElement.vspace",
+    "Current": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "HTMLImageElement",
+      "set": "function"
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "HTMLImageElement",
+      "set": "function"
+    }
+  },
+  "surface.image.width": {
+    "Classification": "known-defect",
+    "Contract": "HTMLImageElement.width",
+    "Current": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": false,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "HTMLImageElement",
+      "set": "function"
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "HTMLImageElement",
+      "set": "function"
+    }
+  },
+  "surface.location.href": {
+    "Classification": "known-defect",
+    "Contract": "Location.href",
+    "Current": {
+      "configurable": true,
+      "depth": 0,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "instance",
+      "type": "string",
+      "writable": true
+    },
+    "Reference": {
+      "configurable": false,
+      "depth": 0,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "instance",
+      "set": "function"
+    }
+  },
+  "surface.navigator.userAgent": {
+    "Classification": "known-defect",
+    "Contract": "Navigator.userAgent",
+    "Current": {
+      "configurable": true,
+      "depth": 0,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "instance",
+      "type": "string",
+      "writable": true
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "Navigator",
+      "set": "undefined"
+    }
+  },
+  "surface.screen.width": {
+    "Classification": "known-defect",
+    "Contract": "Screen.width",
+    "Current": {
+      "configurable": true,
+      "depth": 0,
+      "enumerable": true,
+      "kind": "data",
+      "owner": "instance",
+      "type": "number",
+      "writable": true
+    },
+    "Reference": {
+      "configurable": true,
+      "depth": 1,
+      "enumerable": true,
+      "get": "function",
+      "kind": "accessor",
+      "owner": "Screen",
+      "set": "undefined"
+    }
+  }
+}

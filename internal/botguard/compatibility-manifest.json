@@ -1,0 +1,832 @@
+{
+  "version": 1,
+  "profile": "glowmusic-goja-linkedom-no-layout-v1",
+  "profiles": {
+    "historical-mixed-node-jsdom": "tools/bg-jsdom-reference.mjs: Node globals combined with default jsdom Window; preserved unchanged",
+    "public-coherent-jsdom-window": "tools/bg-public-reference.cjs: outside-only jsdom Window realm; load awaited; no resources"
+  },
+  "components": {
+    "goja": {
+      "kind": "engine",
+      "source": "../../go.mod"
+    },
+    "tree": {
+      "kind": "dom-backend",
+      "source": "assets/linkedom.js"
+    },
+    "bootstrap": {
+      "kind": "javascript-binding",
+      "source": "assets/environment.js"
+    },
+    "adapter": {
+      "kind": "javascript-binding",
+      "source": "assets/linkedom-adapter.js"
+    },
+    "image": {
+      "kind": "javascript-binding",
+      "source": "assets/image-state.js",
+      "dependencies": [
+        "tree",
+        "webidl"
+      ]
+    },
+    "namespace": {
+      "kind": "javascript-binding",
+      "source": "assets/namespace.js"
+    },
+    "collections": {
+      "kind": "javascript-binding",
+      "source": "assets/collection-history.js"
+    },
+    "geometry": {
+      "kind": "javascript-binding",
+      "source": "assets/layout-metrics.js"
+    },
+    "scroll": {
+      "kind": "javascript-binding",
+      "source": "assets/scroll-position.js"
+    },
+    "window": {
+      "kind": "javascript-binding",
+      "source": "assets/window-surface.js"
+    },
+    "timerJS": {
+      "kind": "javascript-binding",
+      "source": "assets/timers.js"
+    },
+    "timerGo": {
+      "kind": "go-host",
+      "source": "timers.go"
+    },
+    "encoding": {
+      "kind": "go-host",
+      "source": "encoding.go"
+    },
+    "url": {
+      "kind": "go-host",
+      "source": "dom_url.go"
+    },
+    "webidl": {
+      "kind": "javascript-binding",
+      "source": "assets/webidl.js"
+    }
+  },
+  "entries": [
+    {
+      "interface": "Global",
+      "members": [
+        "Object",
+        "Array",
+        "Promise",
+        "Proxy",
+        "WeakMap",
+        "BigInt"
+      ],
+      "owner": "goja",
+      "support": "deterministic-profile",
+      "placement": "Goja intrinsic globals",
+      "conversion": "ECMAScript",
+      "receiver": "ECMAScript internal slots",
+      "exceptions": "ECMAScript errors",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "No browser facilities implied",
+      "workload": "Interpreter executes ECMAScript; iframe Object reads 150/150"
+    },
+    {
+      "interface": "Window",
+      "members": [
+        "window",
+        "self"
+      ],
+      "owner": "bootstrap",
+      "support": "deterministic-profile",
+      "placement": "global own aliases",
+      "conversion": "none",
+      "receiver": "global object",
+      "exceptions": "none",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "Global tag and Window constructor differ",
+      "workload": "iframe/global probes 150/150"
+    },
+    {
+      "interface": "Window",
+      "members": [
+        "addEventListener",
+        "removeEventListener",
+        "dispatchEvent"
+      ],
+      "owner": "bootstrap",
+      "support": "known-defect",
+      "placement": "global own functions",
+      "conversion": "custom listener keys; no WebIDL",
+      "receiver": "unchecked",
+      "exceptions": "callback exceptions propagate",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "Independent listener array; duplicate registration invokes twice",
+      "workload": "Node events separately owned by LinkeDOM"
+    },
+    {
+      "interface": "Window",
+      "members": [
+        "frames",
+        "length",
+        "name",
+        "getComputedStyle"
+      ],
+      "owner": "window",
+      "support": "deterministic-profile",
+      "placement": "global accessors/functions",
+      "conversion": "name DOMString rejects Symbol",
+      "receiver": "global closures",
+      "exceptions": "getComputedStyle explicitly throws",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "No WindowProxy or CSS computation",
+      "workload": "iframe 150/150; no layout engine"
+    },
+    {
+      "interface": "Window",
+      "members": [
+        "iframe"
+      ],
+      "owner": "bootstrap",
+      "support": "known-defect",
+      "placement": "createElement closure; adapter attaches contentWindow",
+      "conversion": "tag string methods",
+      "receiver": "no separate realm",
+      "exceptions": "ordinary errors",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "Copied intrinsics; no frame document",
+      "workload": "150/150 iframe creates"
+    },
+    {
+      "interface": "Document",
+      "members": [
+        "createElement",
+        "createEvent",
+        "defaultView",
+        "URL",
+        "documentURI"
+      ],
+      "owner": "adapter",
+      "support": "known-defect",
+      "placement": "own functions/data; defaultView accessor",
+      "conversion": "mixed custom and vendor conversions",
+      "receiver": "mixed unchecked/vendor",
+      "exceptions": "mixed Error/TypeError",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "URL writable; incomplete factories and metadata",
+      "workload": "img factory 150/150; MouseEvents 70/150"
+    },
+    {
+      "interface": "Node",
+      "members": [
+        "appendChild",
+        "removeChild",
+        "cloneNode"
+      ],
+      "owner": "tree",
+      "support": "deterministic-profile",
+      "placement": "vendor prototypes",
+      "conversion": "vendor algorithms, not audited WebIDL",
+      "receiver": "vendor structural checks",
+      "exceptions": "vendor errors",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "Tree functionality only; forged receiver rejection not guaranteed",
+      "workload": "Actual DOM tree under all programs"
+    },
+    {
+      "interface": "Node",
+      "members": [
+        "lookupPrefix",
+        "lookupNamespaceURI",
+        "isDefaultNamespace"
+      ],
+      "owner": "namespace",
+      "support": "known-defect",
+      "placement": "Node.prototype enumerable methods",
+      "conversion": "nullable strings; lookupPrefix stringifies twice and accepts Symbol",
+      "receiver": "instanceof (forgeable)",
+      "exceptions": "TypeError on selected arity/receiver/Symbol paths",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "Incomplete namespace metadata; inconsistent conversion",
+      "workload": "lookupPrefix 7/150"
+    },
+    {
+      "interface": "Element",
+      "members": [
+        "setAttribute",
+        "getAttribute",
+        "setAttributeNS",
+        "removeAttributeNS"
+      ],
+      "owner": "tree",
+      "support": "known-defect",
+      "placement": "Element.prototype methods",
+      "conversion": "vendor String conversions",
+      "receiver": "vendor structural checks",
+      "exceptions": "vendor errors",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "HTML name case normalization and namespace preservation fail",
+      "workload": "setAttributeNS 4/150; removeAttributeNS 8/150"
+    },
+    {
+      "interface": "Element",
+      "members": [
+        "getAttributeNodeNS"
+      ],
+      "owner": "namespace",
+      "support": "known-defect",
+      "placement": "Element.prototype enumerable method",
+      "conversion": "two required args; nullable namespace; Symbol rejected",
+      "receiver": "instanceof (forgeable)",
+      "exceptions": "TypeError",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "Cannot recover vendor discarded namespace metadata",
+      "workload": "5/150"
+    },
+    {
+      "interface": "HTMLImageElement",
+      "members": [
+        "currentSrc",
+        "complete",
+        "border",
+        "hspace",
+        "vspace",
+        "isMap",
+        "useMap",
+        "align",
+        "name",
+        "longDesc"
+      ],
+      "owner": "image",
+      "support": "known-defect",
+      "placement": "HTMLImageElement.prototype enumerable accessors",
+      "conversion": "shared string/unsignedLong mechanisms; explicit legacy border null-to-empty and spacing max 2^31-1 fallback",
+      "receiver": "instanceof except currentSrc unchecked",
+      "exceptions": "TypeError for selected conversions/receivers",
+      "tests": [
+        "TestFoundationDifferential",
+        "TestImageM1Baseline",
+        "TestImageM1LegacyEquivalence"
+      ],
+      "discrepancies": "Forged branding; currentSrc accepts arbitrary receiver; no image pipeline",
+      "workload": "complete 2; vspace 5; border 3; longDesc 5 of 150",
+      "mechanisms": "webidl: descriptor installation, DOMString/USVString, unsignedLong, receiver predicate; tree retains content attributes"
+    },
+    {
+      "interface": "HTMLImageElement",
+      "members": [
+        "src",
+        "width",
+        "height",
+        "alt",
+        "srcset",
+        "sizes",
+        "title"
+      ],
+      "owner": "tree",
+      "support": "known-defect",
+      "placement": "vendor image prototype accessors",
+      "conversion": "vendor strings/numbers",
+      "receiver": "vendor structural checks",
+      "exceptions": "vendor errors",
+      "tests": [
+        "TestFoundationDifferential",
+        "TestImageM1Baseline",
+        "TestImageM1LegacyEquivalence"
+      ],
+      "discrepancies": "src remains relative; negative width; nonenumerable width",
+      "workload": "src 2/150; image factory 150/150"
+    },
+    {
+      "interface": "HTMLImageElement",
+      "members": [
+        "naturalWidth",
+        "naturalHeight",
+        "crossOrigin",
+        "decode"
+      ],
+      "owner": "tree",
+      "support": "unsupported",
+      "placement": "absent",
+      "conversion": "none",
+      "receiver": "none",
+      "exceptions": "absent member",
+      "tests": [
+        "TestFoundationDifferential",
+        "TestImageM1Baseline",
+        "TestImageM1LegacyEquivalence"
+      ],
+      "discrepancies": "No decode/source selection/network pipeline",
+      "workload": "No demonstrated need to add these"
+    },
+    {
+      "interface": "Event",
+      "members": [
+        "type",
+        "target",
+        "currentTarget",
+        "eventPhase",
+        "bubbles",
+        "cancelable",
+        "defaultPrevented",
+        "timeStamp",
+        "preventDefault"
+      ],
+      "owner": "tree",
+      "support": "known-defect",
+      "placement": "writable own state and vendor prototype methods",
+      "conversion": "vendor conversions",
+      "receiver": "vendor checks",
+      "exceptions": "vendor errors",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "Read-only fields writable; noncancelable prevention succeeds; currentTarget absent initially",
+      "workload": "cancelable 5/150"
+    },
+    {
+      "interface": "EventTarget",
+      "members": [
+        "addEventListener",
+        "removeEventListener",
+        "dispatchEvent"
+      ],
+      "owner": "tree",
+      "support": "known-defect",
+      "placement": "vendor prototype; adapter dispatch override",
+      "conversion": "adapter Event instanceof guard",
+      "receiver": "instanceof Event guard (forgeable)",
+      "exceptions": "TypeError or InvalidStateError",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "Capture order target,capture,bubble; Window separate",
+      "workload": "MouseEvents created 70/150"
+    },
+    {
+      "interface": "UIEvent",
+      "members": [
+        "constructor",
+        "view",
+        "detail",
+        "which",
+        "initEvent",
+        "initUIEvent"
+      ],
+      "owner": "adapter",
+      "support": "known-defect",
+      "placement": "custom class; enumerable prototype accessors/methods",
+      "conversion": "optional type; options null fails; fractional detail; initializer signed long",
+      "receiver": "instanceof (forgeable)",
+      "exceptions": "TypeError; conversion may follow mutation",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "Missing required type; invalid view accepted; failed initializer changes type",
+      "workload": "initUIEvent 7/150; which 1/150"
+    },
+    {
+      "interface": "MouseEvent",
+      "members": [
+        "constructor",
+        "clientX",
+        "clientY",
+        "screenX",
+        "screenY",
+        "button",
+        "buttons",
+        "relatedTarget",
+        "pageX",
+        "pageY",
+        "initMouseEvent"
+      ],
+      "owner": "adapter",
+      "support": "known-defect",
+      "placement": "custom subclass; enumerable prototype accessors",
+      "conversion": "bitwise int32 coordinates/buttons; unchecked interface values",
+      "receiver": "instanceof (forgeable)",
+      "exceptions": "TypeError; partial mutation possible",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "Fraction truncated; button not signed short; relatedTarget unchecked",
+      "workload": "button 7/150; pageY 3/150"
+    },
+    {
+      "interface": "NodeList",
+      "members": [
+        "childNodes",
+        "querySelectorAll"
+      ],
+      "owner": "tree",
+      "support": "known-defect",
+      "placement": "Array-backed instances; collections adapter reparents/copies Array methods",
+      "conversion": "vendor collection operations",
+      "receiver": "vendor checks",
+      "exceptions": "vendor errors",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "Non-live snapshots; Array.isArray true; unstable identity; public push/splice; HTMLCollection represented by vendor NodeList",
+      "workload": "childNodes and attributes observed 2/150"
+    },
+    {
+      "interface": "HTMLCollection",
+      "members": [
+        "children"
+      ],
+      "owner": "tree",
+      "support": "known-defect",
+      "placement": "Array-backed instances; collections adapter reparents/copies Array methods",
+      "conversion": "vendor collection operations",
+      "receiver": "vendor checks",
+      "exceptions": "vendor errors",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "Non-live snapshots; Array.isArray true; unstable identity; public push/splice; HTMLCollection represented by vendor NodeList",
+      "workload": "childNodes and attributes observed 2/150"
+    },
+    {
+      "interface": "NamedNodeMap",
+      "members": [
+        "attributes"
+      ],
+      "owner": "tree",
+      "support": "known-defect",
+      "placement": "Array-backed instances; collections adapter reparents/copies Array methods",
+      "conversion": "vendor collection operations",
+      "receiver": "vendor checks",
+      "exceptions": "vendor errors",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "Non-live snapshots; Array.isArray true; unstable identity; public push/splice; HTMLCollection represented by vendor NodeList",
+      "workload": "childNodes and attributes observed 2/150"
+    },
+    {
+      "interface": "CollectionPrototype",
+      "members": [
+        "push",
+        "splice"
+      ],
+      "owner": "collections",
+      "support": "known-defect",
+      "placement": "copied own prototype methods",
+      "conversion": "Array conversions",
+      "receiver": "Array generic",
+      "exceptions": "ECMAScript errors",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "Public mutation methods retained for vendor internals",
+      "workload": "Historical collection parent-chain causal fixes"
+    },
+    {
+      "interface": "Navigator",
+      "members": [
+        "userAgent",
+        "platform",
+        "language",
+        "languages",
+        "cookieEnabled",
+        "hardwareConcurrency"
+      ],
+      "owner": "bootstrap",
+      "support": "deterministic-profile",
+      "placement": "ordinary own data properties",
+      "conversion": "ordinary JS assignment",
+      "receiver": "no brand",
+      "exceptions": "ordinary JS errors",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "No coherent interface prototype; mutable profile fields; Location has no navigation",
+      "workload": "Navigator missing constructor probed 150/150; bounded fixed profile"
+    },
+    {
+      "interface": "Location",
+      "members": [
+        "href",
+        "origin",
+        "protocol",
+        "host",
+        "hostname",
+        "pathname",
+        "search",
+        "hash"
+      ],
+      "owner": "bootstrap",
+      "support": "deterministic-profile",
+      "placement": "ordinary own data properties",
+      "conversion": "ordinary JS assignment",
+      "receiver": "no brand",
+      "exceptions": "ordinary JS errors",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "No coherent interface prototype; mutable profile fields; Location has no navigation",
+      "workload": "Navigator missing constructor probed 150/150; bounded fixed profile"
+    },
+    {
+      "interface": "Screen",
+      "members": [
+        "width",
+        "height",
+        "availWidth",
+        "availHeight",
+        "colorDepth",
+        "pixelDepth"
+      ],
+      "owner": "bootstrap",
+      "support": "deterministic-profile",
+      "placement": "ordinary own data properties",
+      "conversion": "ordinary JS assignment",
+      "receiver": "no brand",
+      "exceptions": "ordinary JS errors",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "No coherent interface prototype; mutable profile fields; Location has no navigation",
+      "workload": "Navigator missing constructor probed 150/150; bounded fixed profile"
+    },
+    {
+      "interface": "Window",
+      "members": [
+        "setTimeout",
+        "clearTimeout"
+      ],
+      "owner": "timerGo",
+      "support": "deterministic-profile",
+      "placement": "global host functions",
+      "conversion": "callable-only timeout; Goja ToInteger delay; host clear int",
+      "receiver": "host closures",
+      "exceptions": "TypeError on string timeout",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "Timeout/interval conversions differ; 10s cap; operation-scoped pump",
+      "workload": "450 timer-set and zero fires in corrected corpus"
+    },
+    {
+      "interface": "Window",
+      "members": [
+        "setInterval",
+        "clearInterval"
+      ],
+      "owner": "timerJS",
+      "support": "deterministic-profile",
+      "placement": "global JS wrappers over Go scheduler",
+      "conversion": "handler DOMString or callable; delay/handle signed long",
+      "receiver": "closures",
+      "exceptions": "TypeError on Symbol/BigInt numeric conversion",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "Shared Go handles/scheduling; no background event loop",
+      "workload": "Existing timer public tests; corrected corpus no fires"
+    },
+    {
+      "interface": "Global",
+      "members": [
+        "atob",
+        "btoa",
+        "encodeUTF8"
+      ],
+      "owner": "encoding",
+      "support": "known-defect",
+      "placement": "global host functions",
+      "conversion": "Goja host string conversion",
+      "receiver": "host closures",
+      "exceptions": "TypeError instead of InvalidCharacterError",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "Not full browser encoding interfaces",
+      "workload": "BgUtils byte/UTF8 adapters"
+    },
+    {
+      "interface": "URLReflection",
+      "members": [
+        "resolveDOMURL"
+      ],
+      "owner": "url",
+      "support": "deterministic-profile",
+      "placement": "private host callback captured/deleted by image adapter",
+      "conversion": "Go net/url; trimmed controls",
+      "receiver": "host closure",
+      "exceptions": "invalid URL reflected unchanged",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "Not WHATWG complete (IDNA/IPv4); no URL constructor",
+      "workload": "longDesc 5/150"
+    },
+    {
+      "interface": "Element",
+      "members": [
+        "clientWidth",
+        "clientHeight",
+        "scrollWidth",
+        "scrollHeight"
+      ],
+      "owner": "geometry",
+      "support": "deterministic-profile",
+      "placement": "prototype zero getters; vendor rectangle methods",
+      "conversion": "no layout conversion",
+      "receiver": "instanceof for adapter getters (forgeable)",
+      "exceptions": "selected TypeError receiver checks",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "Rectangles plain objects; no rendering",
+      "workload": "clientWidth 3/150; clientHeight 5/150"
+    },
+    {
+      "interface": "Element",
+      "members": [
+        "scrollTop",
+        "scrollLeft"
+      ],
+      "owner": "scroll",
+      "support": "deterministic-profile",
+      "placement": "enumerable prototype accessors with stored state",
+      "conversion": "unary plus; rejects BigInt/Symbol",
+      "receiver": "instanceof (forgeable)",
+      "exceptions": "TypeError",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "Independent scroll state without layout",
+      "workload": "scrollTop 6/150"
+    },
+    {
+      "interface": "BrowserSubsystem",
+      "members": [
+        "fetch",
+        "layout",
+        "navigation",
+        "trustedInput",
+        "media",
+        "serviceWorker"
+      ],
+      "owner": "bootstrap",
+      "support": "unsupported",
+      "placement": "absent or explicitly limited stubs",
+      "conversion": "none",
+      "receiver": "none",
+      "exceptions": "missing or explicit failure",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "No resources/layout/browsing-context engine",
+      "workload": "Probed absence does not justify fake success"
+    },
+    {
+      "interface": "History",
+      "members": [
+        "length",
+        "state"
+      ],
+      "owner": "collections",
+      "support": "deterministic-profile",
+      "placement": "profile object/prototype",
+      "conversion": "custom JS conversions",
+      "receiver": "custom checks",
+      "exceptions": "TypeError where checked",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "Initial state only; null prototype",
+      "workload": "Audit public surface; no additional causal workload claim"
+    },
+    {
+      "interface": "Performance",
+      "members": [
+        "now",
+        "timeOrigin"
+      ],
+      "owner": "bootstrap",
+      "support": "deterministic-profile",
+      "placement": "profile object/prototype",
+      "conversion": "custom JS conversions",
+      "receiver": "custom checks",
+      "exceptions": "TypeError where checked",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "Own fields with recorded host clock",
+      "workload": "Audit public surface; no additional causal workload claim"
+    },
+    {
+      "interface": "TextEncoder",
+      "members": [
+        "encode"
+      ],
+      "owner": "bootstrap",
+      "support": "deterministic-profile",
+      "placement": "profile object/prototype",
+      "conversion": "custom JS conversions",
+      "receiver": "custom checks",
+      "exceptions": "TypeError where checked",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "String conversion accepts Symbol unlike DOMString",
+      "workload": "Audit public surface; no additional causal workload claim"
+    },
+    {
+      "interface": "HTMLElement",
+      "members": [
+        "offsetParent"
+      ],
+      "owner": "geometry",
+      "support": "deterministic-profile",
+      "placement": "profile object/prototype",
+      "conversion": "custom JS conversions",
+      "receiver": "offsetParent unchecked; other offset metrics instanceof Element",
+      "exceptions": "TypeError where checked",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "offsetParent accepts arbitrary receiver",
+      "workload": "Audit public surface; no additional causal workload claim"
+    },
+    {
+      "interface": "Element",
+      "members": [
+        "getBoundingClientRect",
+        "getClientRects"
+      ],
+      "owner": "tree",
+      "support": "known-defect",
+      "placement": "vendor Element.prototype method; getClientRects absent",
+      "conversion": "no layout conversion",
+      "receiver": "vendor structural checks",
+      "exceptions": "selected TypeError receiver checks",
+      "tests": [
+        "TestFoundationDifferential"
+      ],
+      "discrepancies": "getBoundingClientRect returns plain object; getClientRects absent",
+      "workload": "clientWidth 3/150; clientHeight 5/150"
+    },
+    {
+      "interface": "WebIDL",
+      "members": [
+        "domString",
+        "usvString",
+        "nullable",
+        "argument",
+        "required",
+        "defaulted",
+        "integer",
+        "unsignedLong",
+        "long",
+        "receiver",
+        "brandedReceiver",
+        "legacyInstanceofReceiver",
+        "accessor",
+        "accessors",
+        "method",
+        "readonly",
+        "domException",
+        "namedError",
+        "prepareThenCommit"
+      ],
+      "owner": "webidl",
+      "support": "deterministic-profile",
+      "placement": "temporary private export captured/deleted by last consumer (image); no public global",
+      "conversion": "DOMString/USVString; nullable nullish; explicit presence/defaults; ToNumber wrapping signed/unsigned 16/32 bits; no clamp/enforce-range families yet",
+      "receiver": "predicate mechanism; private WeakSet/WeakMap branding or explicit legacy instanceof",
+      "exceptions": "user exceptions unchanged; TypeError for conversions/receiver; DOMException delegated to supplied constructor; legacy named Error explicit",
+      "tests": [
+        "TestWebIDLToolkit",
+        "TestWebIDLM1Provenance",
+        "TestImageM1LegacyEquivalence"
+      ],
+      "discrepancies": "Mechanisms only; no browser interface certified or global DOMException installed",
+      "workload": "M1 shared bindings; image first consumer"
+    }
+  ]
+}

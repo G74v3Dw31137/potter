@@ -1,0 +1,12 @@
+# Private challenge/identity data must never be redistributed.
+/internal/botguard/testdata/*capture*.json*
+/internal/botguard/testdata/reliability-*.json
+capture-*.json
+*.private.json
+private-captures/
+captures/
+.private/
+node_modules/
+*.test
+/coverage.out
+/tools/botguard-bundle/botguard-bundle
