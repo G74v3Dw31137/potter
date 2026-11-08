@@ -6,6 +6,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
+	"errors"
 	"io"
 	"net/http"
 	"net/url"
@@ -161,10 +162,55 @@ func (c *Client) publishContextLocked(input botguard.Context) error {
 }
 
 func (c *Client) context(ctx context.Context) (pageContext, error) {
-	c.mu.Lock()
-	input := c.current
-	expired := !time.Now().Before(c.contextExpires)
-	c.mu.Unlock()
+	var input pageContext
+	var expired bool
+	for {
+		c.mu.Lock()
+		if c.closed {
+			c.mu.Unlock()
+			return pageContext{}, ErrClosed
+		}
+		if err := ctx.Err(); err != nil {
+			c.mu.Unlock()
+			return pageContext{}, err
+		}
+		input = c.current
+		expired = !time.Now().Before(c.contextExpires)
+		// Foreground calls hold gate, but a background builder does not. Join it
+		// before issuing another homepage request. The source revision identifies
+		// immutable page/configuration storage; key includes the normalized client
+		// configuration and binding. A replaced generation or canceled builder is
+		// a different opportunity. Client HTTP policy is fixed at construction.
+		job := c.job
+		if !expired || input.guard.Key == "" || job == nil ||
+			job.key != input.guard.Key || c.desired != job.key ||
+			job.revision != input.guard.Revision || job.generation != c.generation || job.work.Err() != nil {
+			c.mu.Unlock()
+			break
+		}
+		c.mu.Unlock()
+		select {
+		case <-ctx.Done():
+		case <-job.done:
+		}
+		c.mu.Lock()
+		closed := c.closed
+		c.mu.Unlock()
+		if closed {
+			return pageContext{}, ErrClosed
+		}
+		if err := ctx.Err(); err != nil {
+			return pageContext{}, err
+		}
+		if errors.Is(job.err, ErrIdentity) {
+			continue // a replacement observed during the wait owns the next attempt
+		}
+		if job.err != nil {
+			return pageContext{}, c.buildError(input.guard, job.err)
+		}
+		// Re-read the atomically published context and session. Never publish a
+		// shared builder's homepage independently of its validated minter.
+	}
 	if input.guard.Key == "" || expired {
 		var err error
 		input, err = c.fetchContext(ctx, "")

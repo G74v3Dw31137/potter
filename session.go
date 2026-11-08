@@ -34,10 +34,12 @@ type session struct {
 	dead               atomic.Bool
 }
 type build struct {
-	done   chan struct{}
-	cancel context.CancelFunc
-	key    string
-	err    error
+	done                 chan struct{}
+	work                 context.Context
+	cancel               context.CancelFunc
+	key                  string
+	revision, generation uint64 // immutable source acquisition opportunity
+	err                  error
 }
 type proofs struct {
 	Player, GVS string
@@ -235,7 +237,8 @@ func (m *Client) ensure(ctx context.Context, c botguard.Context) (*session, erro
 }
 func (m *Client) start(c botguard.Context) {
 	work, cancel := context.WithTimeout(m.life, 30*time.Second)
-	job := &build{done: make(chan struct{}), cancel: cancel, key: c.Key}
+	job := &build{done: make(chan struct{}), work: work, cancel: cancel,
+		key: c.Key, revision: c.Revision, generation: m.generation}
 	m.job = job
 	pageHash := sha256.Sum256(c.Page)
 	pageKey := hex.EncodeToString(pageHash[:])

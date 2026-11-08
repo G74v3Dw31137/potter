@@ -101,6 +101,11 @@ func TestPublicStaleHomepagePublication(t *testing.T) {
 			<-refreshEntered
 			c.mu.Lock()
 			job := c.job
+			// Model a separately observed homepage revision. It is incompatible
+			// with the builder's source acquisition, so this test still exercises
+			// stale publication rather than P2's compatible-build join.
+			c.revision++
+			c.current.guard.Revision = c.revision
 			c.contextExpires = time.Time{}
 			c.mu.Unlock()
 			ctx, cancel := context.WithCancel(context.Background())
