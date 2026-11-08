@@ -12,7 +12,7 @@ import (
 
 // Recover only in the test harness so the unfixed code reports a test failure
 // instead of terminating the process (including for interruption panics).
-func containTestPanic(fn func() error) (err error, escaped any) {
+func containTestPanic(fn func() error) (escaped any, err error) {
 	defer func() { escaped = recover() }()
 	err = fn()
 	return
@@ -20,7 +20,7 @@ func containTestPanic(fn func() error) (err error, escaped any) {
 
 func requireContainedError(t *testing.T, fn func() error, stage error) {
 	t.Helper()
-	err, escaped := containTestPanic(fn)
+	escaped, err := containTestPanic(fn)
 	require.Nil(t, escaped, "Goja panic escaped: %T", escaped)
 	require.ErrorIs(t, err, stage)
 	if stage != context.Canceled {
@@ -47,8 +47,7 @@ func TestExceptionChallengeExport(t *testing.T) {
 			name = "describe"
 		}
 		t.Run(name, func(t *testing.T) {
-			ctx, cancel := context.WithCancel(context.Background())
-			defer cancel()
+			ctx := t.Context()
 			requireContainedError(t, func() error {
 				if describe {
 					_, err := DescribeInterpreter(ctx, page)
@@ -118,8 +117,7 @@ func TestExceptionRuntimeBoundaries(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			rt := newRuntime(fixtureContext())
 			require.NoError(t, rt.eval(tc.setup))
-			ctx, cancel := context.WithCancel(context.Background())
-			defer cancel()
+			ctx := t.Context()
 			requireContainedError(t, func() error { return tc.run(t, rt, ctx) }, tc.stage)
 			require.True(t, rt.broken)
 			require.False(t, rt.interrupted)
@@ -136,8 +134,7 @@ func TestExceptionInitialization(t *testing.T) {
 			rt := newRuntime(fixtureContext())
 			p, err := goja.Compile("private-source.js", source, false)
 			require.NoError(t, err)
-			ctx, cancel := context.WithCancel(context.Background())
-			defer cancel()
+			ctx := t.Context()
 			requireContainedError(t, func() error {
 				return rt.initialize(ctx, fixtureContext(), []*goja.Program{p})
 			}, ErrRuntime)
@@ -191,8 +188,7 @@ func TestExceptionHostInspectionEngineErrors(t *testing.T) {
 			if interrupt {
 				rt.vm.Interrupt("PRIVATE interrupt reason")
 			}
-			ctx, cancel := context.WithCancel(context.Background())
-			defer cancel()
+			ctx := t.Context()
 			requireContainedError(t, func() error {
 				return rt.run(ctx, ErrRuntime, func(context.Context) error { obj.Get("value"); return nil })
 			}, ErrRuntime)
@@ -214,7 +210,7 @@ func TestExceptionGoPanicAndWatchdogCleanup(t *testing.T) {
 				bug := errors.New("ordinary Go programming bug")
 				require.NoError(t, rt.vm.Set("hostBug", func() { panic(bug) }))
 				var work context.Context
-				_, escaped := containTestPanic(func() error {
+				escaped, _ := containTestPanic(func() error {
 					return rt.run(context.Background(), ErrRuntime, func(ctx context.Context) error {
 						work = ctx
 						if inJS {
@@ -243,7 +239,7 @@ func TestExceptionWatchdogExitPaths(t *testing.T) {
 				rt := newRuntime(fixtureContext())
 				require.NoError(t, rt.eval(`var inspected={get value(){throw 'PRIVATE watchdog'}}`))
 				var work context.Context
-				err, escaped := containTestPanic(func() error {
+				escaped, err := containTestPanic(func() error {
 					return rt.run(context.Background(), ErrRuntime, func(ctx context.Context) error {
 						work = ctx
 						switch outcome {

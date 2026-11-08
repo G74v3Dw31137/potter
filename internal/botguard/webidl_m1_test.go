@@ -179,8 +179,7 @@ func BenchmarkWebIDLInstall(b *testing.B) {
 		b.Fatal(e)
 	}
 	b.ReportAllocs()
-	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		vm := goja.New()
 		if _, e = vm.RunProgram(program); e != nil {
 			b.Fatal(e)

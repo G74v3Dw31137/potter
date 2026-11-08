@@ -326,12 +326,10 @@ func TestCancellationAndConcurrentUsage(t *testing.T) {
 	close(f.block)
 	var wg sync.WaitGroup
 	for i := range 8 {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
+		wg.Go(func() {
 			_, err := c.Tokens(context.Background(), fmt.Sprintf("video-%d", i))
 			assert.NoError(t, err)
-		}()
+		})
 	}
 	wg.Wait()
 	f.mu.Lock()

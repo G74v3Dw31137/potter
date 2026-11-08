@@ -144,7 +144,7 @@ func (c *Client) Warmup(ctx context.Context) error {
 		return err
 	}
 	defer done()
-	for attempt := 0; attempt < 2; attempt++ {
+	for range 2 {
 		input, err := c.context(ctx)
 		if err != nil {
 			return err
@@ -173,7 +173,7 @@ func (c *Client) Tokens(ctx context.Context, videoID string) (Tokens, error) {
 	if videoID == "" {
 		return Tokens{}, &Error{Stage: ErrBinding, Code: "empty-video-id"}
 	}
-	for attempt := 0; attempt < 2; attempt++ {
+	for range 2 {
 		input, err := c.context(ctx)
 		if err != nil {
 			return Tokens{}, err

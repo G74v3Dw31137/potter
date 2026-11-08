@@ -115,7 +115,7 @@ func TestLifecycleRefreshFailureAndRetry(t *testing.T) {
 		f.status["integrity"] = 0
 		f.mu.Unlock()
 		time.Sleep(6 * time.Second) // beyond second backoff (4..5 seconds)
-		got, err = c.Tokens(context.Background(), "video")
+		_, err = c.Tokens(context.Background(), "video")
 		require.NoError(t, err)
 		calls(t, f, "integrity", 4)
 		calls(t, f, "interpreter", 1)

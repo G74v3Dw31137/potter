@@ -73,8 +73,7 @@ func BenchmarkFoundationInitialize(b *testing.B) {
 		b.Fatal(e)
 	}
 	b.ReportAllocs()
-	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		rt := newRuntime(fixtureContext())
 		if e = rt.initialize(context.Background(), fixtureContext(), ps); e != nil {
 			b.Fatal(e)

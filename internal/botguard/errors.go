@@ -81,8 +81,7 @@ func HTTPFailure(ctx context.Context, stage error, reading bool, cause error) er
 		// url.Error.Timeout only inspects its immediate cause; a %w wrapper
 		// around a transport timeout must not hide that distinction.
 		networkCause := cause
-		var request *url.Error
-		if errors.As(cause, &request) {
+		if request, ok := errors.AsType[*url.Error](cause); ok {
 			networkCause = request.Err
 		}
 		var dns *net.DNSError

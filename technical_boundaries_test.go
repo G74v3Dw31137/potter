@@ -110,12 +110,10 @@ func TestPublicStaleHomepagePublication(t *testing.T) {
 				err    error
 			}
 			finished := make(chan result, 1)
-			requests.Add(1)
-			go func() {
-				defer requests.Done()
+			requests.Go(func() {
 				v, e := c.Tokens(ctx, "video")
 				finished <- result{v, e}
-			}()
+			})
 			<-staleEntered
 			if finish == "cancel" {
 				cancel()

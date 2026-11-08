@@ -37,13 +37,7 @@ func (r *runtime) installTimers() {
 				source := call.Argument(0).String()
 				fn = func(goja.Value, ...goja.Value) (goja.Value, error) { return vm.RunString(source) }
 			}
-			delay := call.Argument(1).ToInteger()
-			if delay < 0 {
-				delay = 0
-			}
-			if delay > 10000 {
-				delay = 10000
-			}
+			delay := min(max(call.Argument(1).ToInteger(), 0), 10000)
 			if r.timerLimit || len(r.timers) >= maxPendingTimers {
 				r.timerLimit = true
 				panic(vm.NewTypeError("pending timer limit exceeded"))

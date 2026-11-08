@@ -80,8 +80,7 @@ func (r *runtime) try(fn func() error) (err error) {
 		}
 		if err != nil {
 			r.broken = true
-			var interrupted *goja.InterruptedError
-			if errors.As(err, &interrupted) {
+			if _, ok := errors.AsType[*goja.InterruptedError](err); ok {
 				r.interrupted = true
 			}
 		}

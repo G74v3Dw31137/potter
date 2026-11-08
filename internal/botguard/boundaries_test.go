@@ -229,7 +229,7 @@ func TestIntegrityExpiryUsesRequestStart(t *testing.T) {
 		defer got.session.Close()
 		require.Equal(t, requestStart, got.session.Issued)
 		require.Equal(t, 60*time.Second, got.session.TTL)
-		require.Equal(t, 55*time.Second, got.session.Issued.Add(got.session.TTL).Sub(time.Now()))
+		require.Equal(t, 55*time.Second, time.Until(got.session.Issued.Add(got.session.TTL)))
 	})
 }
 

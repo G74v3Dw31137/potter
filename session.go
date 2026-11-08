@@ -47,7 +47,7 @@ func (m *Client) tokens(ctx context.Context, c botguard.Context, video string) (
 	if c.Binding != botguard.VideoBinding && c.Binding != botguard.VisitorBinding {
 		return proofs{}, ErrBinding
 	}
-	for attempt := 0; attempt < 2; attempt++ {
+	for range 2 {
 		s, e := m.ensure(ctx, c)
 		if e != nil {
 			return proofs{}, e
@@ -228,9 +228,7 @@ func (m *Client) start(c botguard.Context) {
 	if bootstrap {
 		m.lastPage = pageKey
 	}
-	m.active.Add(1)
-	go func() {
-		defer m.active.Done()
+	m.active.Go(func() {
 		defer cancel()
 		start := time.Now()
 		s, e := m.factory(work, c, bootstrap)
@@ -274,10 +272,7 @@ func (m *Client) start(c botguard.Context) {
 		} else if m.desired == c.Key {
 			m.lastErr = e
 			m.failures++
-			step := m.failures
-			if step > 6 {
-				step = 6
-			}
+			step := min(m.failures, 6)
 			delay := time.Duration(1<<step) * time.Second // 2..64s, bounded, plus <=25% jitter.
 			m.retryAt = m.now().Add(delay + time.Duration(rand.Int64N(int64(delay/4)+1)))
 		}
@@ -287,7 +282,7 @@ func (m *Client) start(c botguard.Context) {
 		job.err = e
 		m.job = nil
 		close(job.done)
-	}()
+	})
 }
 func (m *Client) buildError(c botguard.Context, e error) error {
 	m.mu.Lock()
@@ -357,10 +352,7 @@ func (m *Client) createSession(ctx context.Context, c botguard.Context, bootstra
 		return nil, err
 	}
 	expires := rt.Issued.Add(rt.TTL)
-	margin := rt.TTL / 10
-	if margin > time.Minute {
-		margin = time.Minute
-	}
+	margin := min(rt.TTL/10, time.Minute)
 	if !m.now().Before(expires) {
 		rt.Close()
 		return nil, ErrExpired
