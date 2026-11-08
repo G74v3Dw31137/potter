@@ -48,6 +48,8 @@ func (m *Engine) request(ctx context.Context, c Context, method, target string, 
 	req.Header.Set("X-Goog-Visitor-Id", c.Visitor)
 	if method == "POST" {
 		req.Header.Set("Content-Type", "application/json+protobuf")
+		// Public Google API key used by the upstream BgUtils BotGuard client.
+		// Source: https://github.com/LuanRT/BgUtils/blob/main/src/utils/constants.ts
 		req.Header.Set("x-goog-api-key", "AIzaSyDyT5W0Jh49F30Pqqtyfdf7pDLFKLJoAnw")
 		req.Header.Set("x-user-agent", "grpc-web-javascript/0.1")
 	}
