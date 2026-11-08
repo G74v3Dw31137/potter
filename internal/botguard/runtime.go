@@ -52,6 +52,7 @@ var bgutilsJS string
 var errPromiseRejected = errors.New("promise rejected")
 
 type runtime struct {
+	stats                    *metrics
 	interrupted              bool
 	vm                       *goja.Runtime
 	timers                   []scheduled
@@ -186,6 +187,9 @@ func newRuntime(c Context) *runtime {
 }
 func (r *runtime) initialize(ctx context.Context, c Context, programs []*goja.Program) error {
 	return r.run(ctx, ErrRuntime, func(ctx context.Context) error {
+		if r.stats != nil {
+			r.stats.initializations.Add(1)
+		}
 		for _, p := range programs {
 			if _, e := r.vm.RunProgram(p); e != nil {
 				return e
@@ -212,20 +216,29 @@ type challenge struct {
 }
 
 func (r *runtime) homepageChallenge(ctx context.Context, page []byte) (challenge, bool, error) {
-	var c challenge
+	object, err := homepageChallengeObject(page)
+	if err != nil || object == nil {
+		return challenge{}, err != nil, err
+	}
+	c, err := r.evaluateChallenge(ctx, object)
+	return c, true, err
+}
+
+func homepageChallengeObject(page []byte) ([]byte, error) {
 	var object []byte
 	err := VisitPageObjects(page, "window.ytAtN", func(payload []byte) bool {
 		object = payload
 		return false // The first object is authoritative, regardless of suffix errors.
 	})
-	if err != nil {
-		return c, true, err
-	}
-	if object == nil {
-		return c, false, nil
-	}
+	return object, err
+}
 
+func (r *runtime) evaluateChallenge(ctx context.Context, object []byte) (challenge, error) {
+	var c challenge
 	e := r.run(ctx, ErrChallenge, func(ctx context.Context) error {
+		if r.stats != nil {
+			r.stats.challenges.Add(1)
+		}
 		v, e := r.vm.RunString("(" + string(object) + ")")
 		if e != nil {
 			return e
@@ -246,7 +259,7 @@ func (r *runtime) homepageChallenge(ctx context.Context, page []byte) (challenge
 		}
 		return nil
 	})
-	return c, true, e
+	return c, e
 }
 func validChallenge(c challenge) bool {
 	return c.Program != "" && c.GlobalName != "" && (c.InterpreterUrl.Value != "" || c.InterpreterJavascript.Value != "")
@@ -259,6 +272,9 @@ func (r *runtime) snapshot(ctx context.Context, c challenge, interpreter *goja.P
 }
 func (r *runtime) loadBotGuard(ctx context.Context, c challenge, interpreter *goja.Program) error {
 	return r.run(ctx, ErrRuntime, func(ctx context.Context) error {
+		if r.stats != nil {
+			r.stats.executions.Add(1)
+		}
 		if _, e := r.vm.RunProgram(interpreter); e != nil {
 			return e
 		}
@@ -311,6 +327,9 @@ func (r *runtime) minter(ctx context.Context, token string, ttl, threshold float
 func (r *runtime) mint(ctx context.Context, binding string) (string, error) {
 	var token string
 	e := r.run(ctx, ErrMint, func(ctx context.Context) error {
+		if r.stats != nil {
+			r.stats.mints.Add(1)
+		}
 		if e := r.vm.Set("binding", binding); e != nil {
 			return e
 		}

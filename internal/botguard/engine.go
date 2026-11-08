@@ -33,12 +33,23 @@ type Context struct {
 	Binding            Binding
 }
 
-// Stats reports execution requests only; lifecycle accounting belongs to Client.
-type Stats struct{ InterpreterRequests, GenerateITRequests int64 }
-type metrics struct{ interpreter, integrity atomic.Int64 }
+// Stats reports engine execution attempts; lifecycle accounting belongs to Client.
+// Description-only VMs are independent of Engine and are not included here.
+type Stats struct {
+	InterpreterRequests, GenerateITRequests                                             int64
+	RuntimeInitializations, ChallengeEvaluations, InterpreterExecutions, MintExecutions int64
+}
+type metrics struct{ interpreter, integrity, initializations, challenges, executions, mints atomic.Int64 }
 
 func (m *Engine) Stats() Stats {
-	return Stats{m.stats.interpreter.Load(), m.stats.integrity.Load()}
+	if m.stats == nil {
+		return Stats{}
+	}
+	return Stats{
+		InterpreterRequests: m.stats.interpreter.Load(), GenerateITRequests: m.stats.integrity.Load(),
+		RuntimeInitializations: m.stats.initializations.Load(), ChallengeEvaluations: m.stats.challenges.Load(),
+		InterpreterExecutions: m.stats.executions.Load(), MintExecutions: m.stats.mints.Load(),
+	}
 }
 
 type interpreter struct {
@@ -53,7 +64,7 @@ type Engine struct {
 	http         *http.Client
 	programs     []*goja.Program
 	interpreters []interpreter
-	stats        metrics
+	stats        *metrics                                          // separate allocation: session accounting must not retain Engine
 	compile      func(string, string, bool) (*goja.Program, error) // synchronous compiler; test barrier
 	// MintStarted is an offline fixture barrier. Public clients never set it;
 	// only the synthetic interpreter knows the optional fixture callback.
@@ -61,7 +72,7 @@ type Engine struct {
 }
 
 func NewEngine(hc *http.Client) *Engine {
-	return &Engine{http: hc, compile: goja.Compile}
+	return &Engine{http: hc, compile: goja.Compile, stats: &metrics{}}
 }
 func (m *Engine) Close() {
 	m.programs = nil
@@ -173,6 +184,7 @@ func (m *Engine) Create(ctx context.Context, c Context, now func() time.Time) (*
 		return nil, e
 	}
 	rt := newRuntime(c)
+	rt.stats = m.stats
 	if m.MintStarted != nil {
 		if e := rt.vm.Set("fixtureMintStarted", m.MintStarted); e != nil {
 			return nil, &Error{Stage: ErrRuntime, Code: "fixture-hook"}

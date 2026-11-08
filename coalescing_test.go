@@ -187,6 +187,39 @@ func TestHomepageCoalescingConcurrentForeground(t *testing.T) {
 	})
 }
 
+func TestHomepageCoalescingReplacesCachedTokensAfterWait(t *testing.T) {
+	synctest.Test(t, func(t *testing.T) {
+		c, first, wire := coalescingClient(t, false)
+		// Expire only the token cache. The live old minter now produces a
+		// distinguishable pair for the same identity and video binding.
+		time.Sleep(2 * time.Minute)
+		previous, err := c.TokensWithSession(context.Background(), "video")
+		require.NoError(t, err)
+		require.Equal(t, first.Generation(), previous.Generation())
+		require.NotEqual(t, first.Tokens().Player, previous.Tokens().Player)
+		require.NotEqual(t, first.Tokens().GVS, previous.Tokens().GVS)
+		job := startCoalescingRefresh(t, c, wire)
+		waiter := coalescingTokens(c, context.Background())
+		synctest.Wait()
+		select {
+		case <-waiter:
+			t.Fatal("foreground returned before the compatible builder completed")
+		default:
+		}
+		wire.release()
+		got := <-waiter
+		require.NoError(t, got.err)
+		<-job.done
+		require.NoError(t, job.err)
+		requireSharedSnapshot(t, c, previous, got.snapshot)
+		require.NotEqual(t, previous.Tokens().Player, got.snapshot.Tokens().Player)
+		require.NotEqual(t, previous.Tokens().GVS, got.snapshot.Tokens().GVS)
+		require.Equal(t, first.Tokens(), got.snapshot.Tokens(), "replacement minter starts its own counter")
+		require.Equal(t, int64(1), wire.calls.Load())
+		require.NoError(t, c.Close())
+	})
+}
+
 func TestHomepageCoalescingFailureAndRetry(t *testing.T) {
 	for _, stage := range []string{"homepage", "parse", "integrity"} {
 		t.Run(stage, func(t *testing.T) {
@@ -226,11 +259,15 @@ func TestHomepageCoalescingFailureAndRetry(t *testing.T) {
 				require.Equal(t, first.Generation(), c.generation)
 				require.Equal(t, first.documentURL, c.current.guard.DocumentURL)
 				require.Equal(t, first.page, c.current.guard.Page)
-				// Make a later policy retry eligible without using time to synchronize.
-				c.retryAt = time.Time{}
+				require.Nil(t, c.job, "completion must clear the shared acquisition")
+				retryAt := c.retryAt
 				c.mu.Unlock()
+				require.True(t, c.now().Before(retryAt))
 				wire.status.Store(0)
 				failIntegrity.Store(false)
+				// Virtual time reaches the actual policy deadline, including jitter;
+				// the test does not bypass or rewrite the coordinator's backoff.
+				time.Sleep(retryAt.Sub(c.now()))
 				// A failed acquisition does not leave a completed flight to be reused.
 				require.NoError(t, c.Warmup(context.Background()))
 				synctest.Wait()

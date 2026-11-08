@@ -77,14 +77,14 @@ func TestRemainingDOMSurface(t *testing.T) {
 	require.NoError(t, err)
 }
 
-func TestRound5DOMSurface(t *testing.T) {
+func TestNodeAttributeImageURLSurface(t *testing.T) {
 	m, _ := newFake(t)
 	ps, err := m.staticPrograms(context.Background())
 	require.NoError(t, err)
 	rt := newRuntime(fixtureContext())
 	err = rt.initialize(context.Background(), fixtureContext(), ps)
 	require.NoError(t, err)
-	probe, err := os.ReadFile("testdata/round5-surface-probe.js")
+	probe, err := os.ReadFile("testdata/node-attribute-image-url-probe.js")
 	require.NoError(t, err)
 	_, err = rt.vm.RunString(string(probe))
 	require.NoError(t, err)

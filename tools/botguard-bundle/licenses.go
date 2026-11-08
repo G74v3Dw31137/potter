@@ -108,7 +108,7 @@ func collectPackageLicense(p component, client *http.Client) (packageNotice, err
 		if !strings.HasPrefix(upper, "LICENSE") && !strings.HasPrefix(upper, "LICENCE") && !strings.HasPrefix(upper, "NOTICE") && upper != "COPYING" {
 			continue
 		}
-		if (h.Typeflag != tar.TypeReg && h.Typeflag != tar.TypeRegA) || seen[name] {
+		if (h.Typeflag != tar.TypeReg && h.Typeflag != '\x00') || seen[name] {
 			return notice, fmt.Errorf("non-regular or duplicate legal file: %s", name)
 		}
 		seen[name] = true
