@@ -83,7 +83,18 @@ func (t transport) RoundTrip(r *http.Request) (*http.Response, error) {
 		}
 		return nil, err
 	}
-	return t.base.RoundTrip(r)
+	// Keep a value copy before handing the request to a custom transport. For
+	// homepage provenance, incomplete metadata falls back to this validated hop,
+	// not the original request before redirects. Complete metadata is validated
+	// by the homepage consumer before retaining its URL.
+	documentURL := *r.URL
+	resp, err := t.base.RoundTrip(r)
+	if t.policy == Homepage && resp != nil && (resp.Request == nil || resp.Request.URL == nil || *resp.Request.URL == (url.URL{})) {
+		copy := *resp
+		copy.Request = &http.Request{URL: &documentURL}
+		resp = &copy
+	}
+	return resp, err
 }
 
 // Do borrows hc's transport and jar. Only the per-request client copy changes;

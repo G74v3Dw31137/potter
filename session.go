@@ -21,6 +21,7 @@ type cachedToken struct {
 }
 type session struct {
 	version            string
+	clientVersion      string
 	origin             botguard.Context
 	key                string
 	generation         uint64
@@ -43,25 +44,39 @@ type proofs struct {
 	Generation  uint64
 }
 
-func (m *Client) tokens(ctx context.Context, c botguard.Context, video string) (proofs, error) {
+func (m *Client) tokens(ctx context.Context, c botguard.Context, video string) (SessionSnapshot, error) {
 	if c.Binding != botguard.VideoBinding && c.Binding != botguard.VisitorBinding {
-		return proofs{}, ErrBinding
+		return SessionSnapshot{}, ErrBinding
 	}
 	for range 2 {
 		s, e := m.ensure(ctx, c)
 		if e != nil {
-			return proofs{}, e
+			return SessionSnapshot{}, e
 		}
-		tokens, e := func() (proofs, error) {
+		snapshot, e := func() (SessionSnapshot, error) {
 			defer m.release(s)
-			return m.sessionTokens(ctx, c, video, s)
+			pair, err := m.sessionTokens(ctx, c, video, s)
+			if err != nil {
+				return SessionSnapshot{}, err
+			}
+			// Capture only immutable values from this successful lease. A newer
+			// generation may already be current; it must never supply our origin.
+			binding := video
+			if s.origin.Binding == botguard.VisitorBinding {
+				binding = s.origin.Visitor
+			}
+			return SessionSnapshot{
+				tokens: Tokens{Player: pair.Player, GVS: pair.GVS, GVSBinding: binding,
+					VisitorData: s.origin.Visitor, ClientVersion: s.clientVersion},
+				generation: s.generation, documentURL: s.origin.DocumentURL, page: s.origin.Page,
+			}, nil
 		}()
 		if e == errRetired && ctx.Err() == nil {
 			continue
 		}
-		return tokens, e
+		return snapshot, e
 	}
-	return proofs{}, ErrMint
+	return SessionSnapshot{}, ErrMint
 }
 
 var errRetired = errors.New("retired BotGuard generation")
@@ -261,6 +276,7 @@ func (m *Client) start(c botguard.Context) {
 			}
 			m.generation++
 			s.generation = m.generation
+			s.clientVersion = m.current.version // parsed from this session's published origin
 			s.key = s.origin.Key
 			m.retireLocked(m.session)
 			m.session = s

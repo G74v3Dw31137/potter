@@ -80,6 +80,67 @@ with each token pair, since the client may refresh its session.
 
 Do not log tokens, visitor data, cookies, or signed media URLs.
 
+## Atomic session snapshots
+
+Use `TokensWithSession` when you also need the homepage that initialized the
+actual token minter:
+
+```go
+client, err := potter.NewClient()
+if err != nil {
+    return err
+}
+defer client.Close()
+
+snapshot, err := client.TokensWithSession(ctx, videoID)
+if err != nil {
+    return err
+}
+
+tokens := snapshot.Tokens()
+generation := snapshot.Generation()
+documentURL, homepage := snapshot.Homepage()
+
+// Consumers can parse the homepage using their own logic.
+// Potter does not perform video extraction.
+```
+
+The token pair, identity, generation, homepage bytes and document URL all come
+from one successfully leased minter session. They remain associated even if a
+replacement becomes current before the call returns. The existing `Tokens`
+method uses the same acquisition path and retains its five-field comparable
+result type. The snapshot extension adds no homepage, GenerateIT, runtime
+initialization or token-mint work, and its accessors perform no HTTP or JS work.
+Normal refreshes and retries still use the existing lifecycle policy.
+
+`Generation()` identifies a minter publication within its originating client.
+Cache hits and remints within that minter keep the same generation. It is not a
+remote session ID, a token expiration time, or a server-side validity guarantee.
+A historical snapshot may remain readable after its tokens become unusable.
+
+`Homepage()` returns the original successful response bytes delivered by the HTTP
+client (possibly after transport decompression), not Potter's normalized runtime
+configuration. The URL is the final validated document URL, including permitted
+homepage redirects. For custom transports, a missing response request, nil URL or
+empty URL uses the validated request URL of the final dispatched hop. Partially
+specified or disallowed response URLs fail acquisition; they are not resolved
+against a guessed base. No live response objects or open bodies are retained.
+
+Each `Homepage()` call returns an independent reader at offset zero, requiring no
+`Close`. Use separate readers for concurrent reading. Callers cannot mutate the
+shared bytes through these readers. Snapshots and readers survive session
+replacement and `Client.Close` without holding a runtime or active lease, and
+retaining them does not block shutdown. A zero snapshot has empty tokens, zero
+generation, an empty URL and an empty reader; failed acquisitions return this
+zero value.
+
+Snapshots share Potter's existing homepage storage without copying the full body
+on each acquisition. Keeping a snapshot or reader retains that storage until it
+is released. Each acquisition is bounded to 8 MiB of body payload, with additional
+allocation overhead; keeping arbitrarily many distinct origins can retain
+unbounded total memory. Drop raw snapshots and readers when no longer needed.
+Treat homepage contents as private, like tokens and visitor data.
+
 ## Client lifecycle
 
 Reuse a client across calls. `NewClient` performs no network I/O; the first
@@ -87,7 +148,7 @@ Reuse a client across calls. `NewClient` performs no network I/O; the first
 it ahead of time. The client manages session refresh and token caching.
 
 Public operations are safe to call concurrently and are serialized internally.
-Pass a non-nil context to `Warmup` and `Tokens`. Canceling a call can stop waiting
+Pass a non-nil context to `Warmup`, `Tokens` and `TokensWithSession`. Canceling a call can stop waiting
 while shared initialization continues. `Close` cancels owned work and waits for
 it to finish; cancellation and shutdown are cooperative.
 
@@ -111,6 +172,11 @@ generation, and generated tokens have no guaranteed acceptance or lifetime.
 
 Potter is not a media extractor. It does not make Player API or media requests,
 decipher signatures, transform the `n` parameter, or implement SABR.
+
+The snapshot API does not fix HTTP 403 or guarantee remote acceptance. Foreground
+context expiry can still overlap a background homepage acquisition; HTTP
+coalescing remains P2 work. Repeated challenge-data evaluation during existing
+initialization remains P3 work.
 
 ## Development
 

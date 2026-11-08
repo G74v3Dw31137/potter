@@ -165,34 +165,32 @@ func (c *Client) Warmup(ctx context.Context) error {
 // Player always binds to videoID; GVS binds according to the homepage flags.
 // No Player API call or media request is made. An empty videoID fails locally.
 func (c *Client) Tokens(ctx context.Context, videoID string) (Tokens, error) {
+	snapshot, err := c.acquireTokens(ctx, videoID)
+	return snapshot.Tokens(), err
+}
+
+// acquireTokens owns admission and retries for both public token APIs.
+func (c *Client) acquireTokens(ctx context.Context, videoID string) (SessionSnapshot, error) {
 	ctx, done, err := c.begin(ctx)
 	if err != nil {
-		return Tokens{}, err
+		return SessionSnapshot{}, err
 	}
 	defer done()
 	if videoID == "" {
-		return Tokens{}, &Error{Stage: ErrBinding, Code: "empty-video-id"}
+		return SessionSnapshot{}, &Error{Stage: ErrBinding, Code: "empty-video-id"}
 	}
 	for range 2 {
 		input, err := c.context(ctx)
 		if err != nil {
-			return Tokens{}, err
+			return SessionSnapshot{}, err
 		}
-		proofs, err := c.tokens(ctx, input.guard, videoID)
+		snapshot, err := c.tokens(ctx, input.guard, videoID)
 		if errors.Is(err, ErrIdentity) {
 			continue
 		}
-		if err != nil {
-			return Tokens{}, err
-		}
-		binding := videoID
-		if input.guard.Binding == botguard.VisitorBinding {
-			binding = input.guard.Visitor
-		}
-		return Tokens{Player: proofs.Player, GVS: proofs.GVS, GVSBinding: binding,
-			VisitorData: input.guard.Visitor, ClientVersion: input.version}, nil
+		return snapshot, err
 	}
-	return Tokens{}, ErrIdentity
+	return SessionSnapshot{}, ErrIdentity
 }
 
 // Close cancels owned work, joins workers and releases runtime references.

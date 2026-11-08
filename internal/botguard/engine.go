@@ -25,7 +25,9 @@ type Context struct {
 	Key                string
 	Revision           uint64
 	CreatedAt          time.Time
+	// Page is owned by acquisition and remains immutable for its entire lifetime.
 	Page               []byte
+	DocumentURL        string
 	Config             json.RawMessage
 	Visitor, UserAgent string
 	Binding            Binding

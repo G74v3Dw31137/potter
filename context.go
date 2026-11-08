@@ -112,6 +112,12 @@ func (c *Client) fetchContext(ctx context.Context, visitor string) (pageContext,
 	if resp.StatusCode != http.StatusOK {
 		return pageContext{}, &Error{Stage: ErrChallenge, Code: "http-status", StatusCode: resp.StatusCode}
 	}
+	// The boundary supplies missing transport metadata from the actual final
+	// dispatched request, including redirects. Never guess from the initial URL.
+	if resp.Request == nil || !httpboundary.Homepage.AllowsURL(resp.Request.URL) {
+		return pageContext{}, &Error{Stage: ErrChallenge, Code: "invalid-document-url"}
+	}
+	documentURL := resp.Request.URL.String()
 	page, err := io.ReadAll(io.LimitReader(resp.Body, (8<<20)+1))
 	if err != nil {
 		return pageContext{}, botguard.HTTPFailure(ctx, ErrChallenge, true, err)
@@ -123,7 +129,12 @@ func (c *Client) fetchContext(ctx context.Context, visitor string) (pageContext,
 	c.revision++
 	revision := c.revision
 	c.mu.Unlock()
-	return c.parse(ctx, page, revision)
+	input, err := c.parse(ctx, page, revision)
+	if err != nil {
+		return pageContext{}, err
+	}
+	input.guard.DocumentURL = documentURL
+	return input, nil
 }
 
 // Caller holds Client.mu, making context and generation publication atomic.
