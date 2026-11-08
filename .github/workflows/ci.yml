@@ -83,7 +83,11 @@ jobs:
         run: |
           mkdir -p public
 
-          COVERAGE=$(go tool cover -func=coverage/coverage.out | awk '/^total:/ {print $3}')
+          COVERAGE=$(go tool cover -func=coverage/coverage.out | awk '$1 == "total:" {print $3}')
+            if [ -z "$COVERAGE" ]; then
+              echo "::error::Failed to extract coverage percentage"
+              exit 1
+            fi
           VALUE="${COVERAGE%\%}"
 
           COLOR="red"

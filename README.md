@@ -1,6 +1,6 @@
 # Potter
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/G74v3Dw31137/potter.svg)](https://pkg.go.dev/github.com/G74v3Dw31137/potter) [![CI](https://github.com/G74v3Dw31137/potter/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/G74v3Dw31137/potter/actions/workflows/ci.yml) [![Coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fg74v3dw31137.github.io%2Fpotter%2Fcoverage.json)](https://g74v3dw31137.github.io/potter/coverage.json) [![Go Report Card](https://goreportcard.com/badge/github.com/G74v3Dw31137/potter)](https://goreportcard.com/report/github.com/G74v3Dw31137/potter) [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/G74v3Dw31137/potter/blob/main/LICENSE)
+[![Go Reference](https://pkg.go.dev/badge/github.com/G74v3Dw31137/potter.svg)](https://pkg.go.dev/github.com/G74v3Dw31137/potter) [![CI](https://github.com/G74v3Dw31137/potter/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/G74v3Dw31137/potter/actions/workflows/ci.yml) [![Coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fg74v3dw31137.github.io%2Fpotter%2Fcoverage.json)](https://g74v3dw31137.github.io/potter/coverage.json) [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/G74v3Dw31137/potter/blob/main/LICENSE)
 
 Potter is a Go library for generating Player and GVS Proof of Origin (PO) tokens
 for anonymous YouTube MWEB sessions. It handles token generation and session
